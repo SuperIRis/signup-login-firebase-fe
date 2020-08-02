@@ -1,13 +1,54 @@
-const modifyBuilder = require('razzle-plugin-postcss').default;
 const fs = require('fs');
 const path = require('path');
 require('postcss-modules-values');
 
-const cssConfig = {
-  postcssPlugins: [require('postcss-modules-values')],
+const postCSSOptions = {
+  ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+  plugins: () => [
+    require('postcss-modules-values'),
+    require('postcss-flexbugs-fixes'),
+    require('postcss-preset-env')({
+      autoprefixer: {
+        flexbox: 'no-2009',
+      },
+      stage: 3,
+    }),
+  ],
 };
-const modify = modifyBuilder({ cssConfig });
 
+function findCSSRuleFromConfig(ruleConfig) {
+  return ruleConfig.find((item) => {
+    const cssRegEx = /\.css$/;
+    return (
+      item.test instanceof RegExp &&
+      cssRegEx instanceof RegExp &&
+      item.test.source === cssRegEx.source &&
+      item.test.global === cssRegEx.global &&
+      item.test.ignoreCase === cssRegEx.ignoreCase &&
+      item.test.multiline === cssRegEx.multiline
+    );
+  });
+}
+
+function replaceCSSLoader(ruleConfig) {
+  ruleConfig.use = [
+    require.resolve('style-loader'),
+    {
+      loader: require.resolve('css-loader'),
+      options: {
+        importLoaders: 1,
+        modules: {
+          auto: true,
+          localIdentName: '[name]__[local]___[hash:base64:5]',
+        },
+      },
+    },
+    {
+      loader: require.resolve('postcss-loader'),
+      options: postCSSOptions,
+    },
+  ];
+}
 module.exports = {
   //plugins: [{ func: modify }],
   modify: (config, { target, dev }, webpack) => {
@@ -15,6 +56,9 @@ module.exports = {
       config.devServer = {};
     }
     if (dev) {
+      //replace css loader rules with standard css-loader and custom postCSSOptions
+      target !== 'node' && replaceCSSLoader(findCSSRuleFromConfig(config.module.rules));
+      //Read local SSL files to be able to test in https in localhost
       config.devServer.https = {
         key: fs.readFileSync('./ssl2/localhost+2-key.pem'),
         cert: fs.readFileSync('./ssl2/localhost+2.pem'),

@@ -36,7 +36,7 @@
     "postcss-modules-values": "^3.0.0",
     "postcss-scss": "^2.0.0",
     "prettier": "^1.19.1",
-    "razzle": "3.1.0",
+    "razzle": "^3.1.6",
     "razzle-dev-utils": "3.1.0",
     "razzle-plugin-postcss": "^2.2.4",
     "redux-mock-store": "^1.5.4",
@@ -48,6 +48,9 @@
     "setupFiles": [
       "<rootDir>/src/setupTests.js"
     ],
-    "coverageReporters": ["html", "text"]
+    "coverageReporters": [
+      "html",
+      "text"
+    ]
   }
 }
