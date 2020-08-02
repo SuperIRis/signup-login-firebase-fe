@@ -35,6 +35,20 @@ const devConfig = [
   },
 ];
 
+const nodeConfig = [
+  {
+    loader: require.resolve('css-loader'),
+    options: {
+      importLoaders: 1,
+      modules: {
+        auto: true,
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      },
+      onlyLocals: true,
+    },
+  },
+];
+
 const defaultConfig = [
   MiniCssExtractPlugin.loader,
   {
@@ -78,13 +92,16 @@ module.exports = {
     if (!config.devServer) {
       config.devServer = {};
     }
+    if (target === 'node') {
+      replaceCSSLoader(findCSSRuleFromConfig(config.module.rules), nodeConfig);
+    } else if (dev) {
+      replaceCSSLoader(findCSSRuleFromConfig(config.module.rules), devConfig);
+    } else {
+      replaceCSSLoader(findCSSRuleFromConfig(config.module.rules), defaultConfig);
+    }
     if (dev) {
       //replace css loader rules with standard css-loader and custom postCSSOptions
-      if (target !== 'node') {
-        replaceCSSLoader(findCSSRuleFromConfig(config.module.rules), devConfig);
-      } else if (target !== 'node' && target !== 'dev') {
-        replaceCSSLoader(findCSSRuleFromConfig(config.module.rules), defaultConfig);
-      }
+
       //Read local SSL files to be able to test in https in localhost
       config.devServer.https = {
         key: fs.readFileSync('./ssl2/localhost+2-key.pem'),
