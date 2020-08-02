@@ -87,8 +87,6 @@ function replaceCSSLoader(ruleConfig, newConfig) {
 module.exports = {
   //plugins: [{ func: modify }],
   modify: (config, { target, dev }, webpack) => {
-    console.log('target:', target);
-    console.log('dev:', dev);
     if (!config.devServer) {
       config.devServer = {};
     }
@@ -119,7 +117,7 @@ module.exports = {
       config.output.libraryTarget = 'commonjs2';
     }
     config.performance = {
-      hints: process.env.NODE_ENV === 'production' ? 'warning' : false,
+      hints: false,
       maxEntrypointSize: 600000,
     };
     return config;
