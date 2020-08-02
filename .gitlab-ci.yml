@@ -10,9 +10,17 @@ build:
   stage: build
   script:
     - npm run-script build
+staging:
+  stage: deploy
+  script: 
+    - npm run-script build
+    - npm run-script deploy
+  only:
+    - staging
 production:
   stage: deploy
   script:
+    - npm run-script build
     - npm run-script deploy
   only:
     - master
