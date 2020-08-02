@@ -11,6 +11,7 @@
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js",
+    "deploy:staging": "firebase use staging && firebase deploy --token $FIREBASE_TOKEN",
     "deploy": "firebase deploy --token $FIREBASE_TOKEN"
   },
   "dependencies": {
