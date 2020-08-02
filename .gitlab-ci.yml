@@ -1,11 +1,18 @@
 image: node:12.13.0-alpine
 before_script:
-  - npm i -g firebase-tools
-prod-hosting:
+  - npm install -g firebase-tools
+  - npm install
+unit-tests:
+  stage: test
+  script:
+    - npm run-script test
+build:
+  stage: build
+  script:
+    - npm run-script build
+production:
   stage: deploy
   script:
-    - npm install
-    - npm run-script build
     - npm run-script deploy
   only:
     - master
