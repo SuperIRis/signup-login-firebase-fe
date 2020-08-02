@@ -9,11 +9,11 @@ const options = {
 
 let app = require('./server').default;
 
-const server = https.createServer(options, app);
+const server = https.createServer(process.env.NODE_ENV === 'development' ? options : {}, app);
 
 let currentApp = app;
 
-server.listen(process.env.PORT || 3000, error => {
+server.listen(process.env.PORT || 3000, (error) => {
   if (error) {
     console.log(error);
   }

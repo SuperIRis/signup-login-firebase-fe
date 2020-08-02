@@ -9,10 +9,13 @@ function getFetch() {
     const https = require('https');
     const fs = require('fs');
     projectFetch = require('node-fetch');
-    options.agent = new https.Agent({
-      ca: [fs.readFileSync('./ssl2/rootCa.pem')],
+    const agentOptions = {
       rejectUnauthorized: true,
-    });
+    };
+    if (process.env.NODE_ENV === 'development') {
+      agentOptions.ca = [fs.readFileSync('./ssl2/rootCa.pem')];
+    }
+    options.agent = new https.Agent(agentOptions);
   } else {
     projectFetch = global.fetch || window.fetch;
   }

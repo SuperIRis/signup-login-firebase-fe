@@ -1,0 +1,14 @@
+image: node:12.13.0-alpine
+before_script:
+  - npm i -g firebase-tools
+prod-hosting:
+  stage: deploy
+  script:
+    - yarn
+    - yarn build
+    - firebase deploy --only hosting --token $FIREBASE_TOKEN
+  only:
+    - master
+  environment:
+    name: production
+    url: https://mokuroku-e0b82.web.app/
