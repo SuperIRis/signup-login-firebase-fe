@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 const HomeGuest = () => {
   return (
     <div>
-      <h1>Hello stranger! Test</h1>
+      <h1>Hello stranger! Test staging</h1>
       <ul>
         <li>
           <Link to='/login'>Login</Link>
