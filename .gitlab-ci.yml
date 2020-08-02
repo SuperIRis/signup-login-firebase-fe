@@ -22,6 +22,7 @@ staging:
   only:
     - staging
   environment:
+    name: staging
     url: https://mokuroku-staging.web.app/
 production:
   stage: deploy
