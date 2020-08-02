@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 require('postcss-modules-values');
 
 const postCSSOptions = {
@@ -16,6 +17,42 @@ const postCSSOptions = {
   ],
 };
 
+const devConfig = [
+  require.resolve('style-loader'),
+  {
+    loader: require.resolve('css-loader'),
+    options: {
+      importLoaders: 1,
+      modules: {
+        auto: true,
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      },
+    },
+  },
+  {
+    loader: require.resolve('postcss-loader'),
+    options: postCSSOptions,
+  },
+];
+
+const defaultConfig = [
+  MiniCssExtractPlugin.loader,
+  {
+    loader: require.resolve('css-loader'),
+    options: {
+      importLoaders: 1,
+      modules: {
+        auto: true,
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      },
+    },
+  },
+  {
+    loader: require.resolve('postcss-loader'),
+    options: postCSSOptions,
+  },
+];
+
 function findCSSRuleFromConfig(ruleConfig) {
   return ruleConfig.find((item) => {
     const cssRegEx = /\.css$/;
@@ -30,24 +67,8 @@ function findCSSRuleFromConfig(ruleConfig) {
   });
 }
 
-function replaceCSSLoader(ruleConfig) {
-  ruleConfig.use = [
-    require.resolve('style-loader'),
-    {
-      loader: require.resolve('css-loader'),
-      options: {
-        importLoaders: 1,
-        modules: {
-          auto: true,
-          localIdentName: '[name]__[local]___[hash:base64:5]',
-        },
-      },
-    },
-    {
-      loader: require.resolve('postcss-loader'),
-      options: postCSSOptions,
-    },
-  ];
+function replaceCSSLoader(ruleConfig, newConfig) {
+  ruleConfig.use = newConfig;
 }
 module.exports = {
   //plugins: [{ func: modify }],
@@ -57,7 +78,11 @@ module.exports = {
     }
     if (dev) {
       //replace css loader rules with standard css-loader and custom postCSSOptions
-      target !== 'node' && replaceCSSLoader(findCSSRuleFromConfig(config.module.rules));
+      if (target !== 'node') {
+        replaceCSSLoader(findCSSRuleFromConfig(config.module.rules), devConfig);
+      } else if (target !== 'node' && target !== 'dev') {
+        replaceCSSLoader(findCSSRuleFromConfig(config.module.rules), defaultConfig);
+      }
       //Read local SSL files to be able to test in https in localhost
       config.devServer.https = {
         key: fs.readFileSync('./ssl2/localhost+2-key.pem'),
