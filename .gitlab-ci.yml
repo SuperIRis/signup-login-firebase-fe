@@ -21,6 +21,8 @@ staging:
     - npm run-script deploy:staging
   only:
     - staging
+  environment:
+    url: https://mokuroku-staging.web.app/
 production:
   stage: deploy
   script:

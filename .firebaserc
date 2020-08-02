@@ -1,6 +1,6 @@
 {
   "projects": {
     "default": "mokuroku-e0b82",
-    "staging": "mokuroku-staging",
+    "staging": "mokuroku-staging"
   }
 }
