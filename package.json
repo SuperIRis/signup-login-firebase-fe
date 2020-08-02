@@ -1,7 +1,11 @@
 {
-  "name": "my-razzle-app",
+  "name": "mokuroku-frontend",
   "version": "0.1.0",
   "license": "MIT",
+  "repository": {
+    "type":"git",
+    "url":"https://gitlab.com/mokuroku1/mokuroku-frontend.git"
+  },
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",
