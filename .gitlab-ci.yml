@@ -6,7 +6,7 @@ prod-hosting:
   script:
     - npm install
     - npm run-script build
-    - firebase deploy --only hosting --token $FIREBASE_TOKEN
+    - firebase deploy --token $FIREBASE_TOKEN
   only:
     - master
   environment:
