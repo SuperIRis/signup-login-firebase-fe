@@ -4,8 +4,8 @@ before_script:
 prod-hosting:
   stage: deploy
   script:
-    - yarn
-    - yarn build
+    - npm install
+    - npm build
     - firebase deploy --only hosting --token $FIREBASE_TOKEN
   only:
     - master
