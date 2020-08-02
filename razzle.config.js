@@ -118,6 +118,10 @@ module.exports = {
       config.output.path = path.resolve(__dirname, './server/build');
       config.output.libraryTarget = 'commonjs2';
     }
+    config.performance = {
+      hints: process.env.NODE_ENV === 'production' ? 'warning' : false,
+      maxEntrypointSize: 600000,
+    };
     return config;
   },
 };
