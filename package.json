@@ -11,7 +11,7 @@
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy --token $FIREBASE_TOKEN"
   },
   "dependencies": {
     "express": "^4.17.1",
