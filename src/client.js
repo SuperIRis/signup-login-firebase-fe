@@ -2,7 +2,7 @@ import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './components/app/App';
+import App from './components/App';
 import configureStore from './common/configureStore';
 
 const store = configureStore(window.__PRELOADED_STATE__);
