@@ -14,7 +14,7 @@ staging:
   stage: deploy
   script: 
     - npm run-script build
-    - npm run-script deploy:staging
+    - firebase use default && firebase deploy --token $FIREBASE_TOKEN
   only:
     - staging
   environment:
