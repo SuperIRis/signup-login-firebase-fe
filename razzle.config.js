@@ -117,7 +117,7 @@ module.exports = {
       config.output.libraryTarget = 'commonjs2';
     }
     config.performance = {
-      hints: false,
+      hints: false, //remove after looking into optimizing (lazy loading?)
       maxEntrypointSize: 600000,
     };
     return config;

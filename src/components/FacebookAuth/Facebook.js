@@ -1,4 +1,5 @@
 //https://developers.facebook.com/docs/facebook-login/web
+import { getFBAppId } from '../../../middleware/config';
 let FB;
 const verbose = false; //change to true to receive logs of FB API responses
 const Facebook = {
@@ -6,7 +7,7 @@ const Facebook = {
   UNAUTHORIZED: 'not_authorized',
   UNKNOWN: 'unknown',
   UNINITIALIZED: 'uninitialized',
-  appId: '2918674861552290',
+  appId: getFBAppId(),
   apiVersion: 'v6.0',
   status: 'uninitialized',
   loadSDK(d, s, id) {
@@ -25,6 +26,8 @@ const Facebook = {
     return new Promise((res, rej) => {
       if (typeof document === 'undefined') {
         rej({ error: 'FB Login not available on SSR' });
+      } else if (!Facebook.appId) {
+        rej({ error: 'FB App ID is missing' });
       } else {
         try {
           window.fbAsyncInit = function() {

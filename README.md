@@ -14,3 +14,19 @@ To make mock calls, an extra parameter can be sent from component, in an extra p
 
 Example:
 ``` dispatch(loginRequest({ fbid: Facebook.user.id }, 'error'));``` 
+
+
+## Migrating
+The first version of this project is meant to be deployed in [Firebase](https://firebase.google.com/). 
+
+The app setup consists in a CI/CD from GitLab that deploys the project to Firebase. These are the settings that would need to be configured in GitLab.
+
+###Gitlab CI/CD
+To get the API key, we run firebase ```firebase login:ci```
+Go to the project in GitLab and go to Settings -> CI/CD -> Variables
+Add a variable named FIREBASE_TOKEN, with the generated token
+Make it both protected and masked, so it will only be exposed to protected branches and if it’s accidentally echoed to the job output, GitLab will hide it from leaking into there.
+
+###Repo files related to Firebase
+- /.firebaserc
+- /firebase.json
