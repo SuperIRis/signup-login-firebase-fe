@@ -11,7 +11,7 @@ export function getProviderConfig() {
       const functions = require('firebase-functions');
       console.log('functions', functions.config());
       console.log('GCLOUD', process.env.GCLOUD_PROJECT);
-      return functions.config();
+      return functions.config() || {};
     } else {
       if (!providerConfig) {
         providerConfig = window.__PROVIDER_CONFIG__;
