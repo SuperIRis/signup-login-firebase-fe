@@ -1,4 +1,4 @@
-import { getProviderConfig } from '../middleware/setup';
+import { getProviderConfig, getProvider } from '../middleware/setup';
 export function getFBAppId() {
-  return getProviderConfig().facebook.appId;
+  return getProviderConfig().facebook ? getProviderConfig().facebook.appid : 'NOPE';
 }

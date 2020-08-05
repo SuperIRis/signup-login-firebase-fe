@@ -4,7 +4,7 @@ const PROVIDER = getProvider();
 
 export function getFBAppId() {
   console.log(process.env.RAZZLE_FB_APPID);
-  if (process.env.RAZZLE_FB_APPID) {
+  if (process.env.RAZZLE_FB_APPIDzzzzzzzzzzzzz) {
     return process.env.RAZZLE_FB_APPID;
   } else if (PROVIDER === FIREBASE) {
     return firebaseGetFBAppId();
