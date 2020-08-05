@@ -11,7 +11,7 @@
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js",
-    "deploy:staging": "firebase use staging && firebase functions:config:set facebook.appId='HOLA KEY!' && firebase deploy --token $FIREBASE_TOKEN",
+    "deploy:staging": "firebase use staging && firebase deploy --token $FIREBASE_TOKEN",
     "deploy": "firebase use default && firebase deploy --token $FIREBASE_TOKEN"
   },
   "dependencies": {
