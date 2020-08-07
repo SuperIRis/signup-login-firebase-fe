@@ -1,5 +1,5 @@
 export const FIREBASE = 'FIREBASE';
-let providerConfig = {};
+let providerConfig;
 
 export function getProvider() {
   return FIREBASE;
