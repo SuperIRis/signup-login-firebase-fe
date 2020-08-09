@@ -7,7 +7,6 @@ export function getProvider() {
 
 export function getProviderEnvVars() {
   if (getProvider() === FIREBASE) {
-    console.log('firebase env vars from setup');
     return getFirebaseEnvVars();
   }
 }

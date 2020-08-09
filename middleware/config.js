@@ -6,7 +6,6 @@ export function getFBAppId() {
     return process.env.RAZZLE_FB_APPID;
   } else {
     //prod / staging env getting vars from cloud provider
-    console.log('get provider env vars', getProviderEnvVars());
     return getProviderEnvVars() && getProviderEnvVars().facebook && getProviderEnvVars().facebook.appid;
   }
 }

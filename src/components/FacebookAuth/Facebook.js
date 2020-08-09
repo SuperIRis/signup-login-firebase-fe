@@ -23,14 +23,12 @@ const Facebook = {
     fjs.parentNode.insertBefore(js, fjs);
   },
   init() {
-    console.log('init', getFBAppId(), Facebook.appId);
     return new Promise((res, rej) => {
       if (typeof document === 'undefined') {
         rej({ error: 'FB Login not available on SSR' });
       } else if (!Facebook.appId) {
         rej({ error: 'FB App ID is missing' });
       } else {
-        console.log(Facebook.appId);
         try {
           window.fbAsyncInit = function() {
             FB = global.FB;
