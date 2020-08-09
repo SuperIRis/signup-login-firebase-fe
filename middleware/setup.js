@@ -1,19 +1,13 @@
-export const FIREBASE = 'FIREBASE';
-let providerConfig = {};
+import { getEnvVars as getFirebaseEnvVars, FIREBASE } from './firebaseConfig';
 
 export function getProvider() {
+  //here is where we determine the provider
   return FIREBASE;
 }
 
-export function getProviderConfig() {
+export function getProviderEnvVars() {
   if (getProvider() === FIREBASE) {
-    if (process.env.BUILD_TARGET && process.env.BUILD_TARGET === 'server') {
-      const functions = require('firebase-functions');
-      providerConfig = functions.config() ? functions.config() : {};
-    } else if (window.__PROVIDER_CONFIG__) {
-      providerConfig = window.__PROVIDER_CONFIG__;
-      //delete window.__PROVIDER_CONFIG__;
-    }
+    console.log('firebase env vars from setup');
+    return getFirebaseEnvVars();
   }
-  return providerConfig;
 }

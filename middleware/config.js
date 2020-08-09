@@ -1,14 +1,12 @@
-import { getProvider, FIREBASE } from './setup';
-import { getFBAppId as firebaseGetFBAppId } from './firebaseConfig';
-const PROVIDER = getProvider();
+import { getProviderEnvVars } from './setup';
 
 export function getFBAppId() {
-  console.log(process.env.RAZZLE_FB_APPID);
-  if (process.env.RAZZLE_FB_APPIDzzzzzzzzzzzzz) {
+  if (process.env.RAZZLE_FB_APPIDss) {
+    //local dev
     return process.env.RAZZLE_FB_APPID;
-  } else if (PROVIDER === FIREBASE) {
-    return firebaseGetFBAppId();
   } else {
-    return undefined;
+    //prod / staging env getting vars from cloud provider
+    console.log('get provider env vars', getProviderEnvVars());
+    return getProviderEnvVars() && getProviderEnvVars().facebook && getProviderEnvVars().facebook.appid;
   }
 }
