@@ -7,10 +7,10 @@ import { Provider } from 'react-redux';
 import configureStore from './common/configureStore';
 import serialize from 'serialize-javascript';
 import auth from './models/auth';
-import { getProviderEnvVars } from '../middleware/setup';
+import { getProviderConfig } from '../middleware/setup';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
-const providerConfig = getProviderEnvVars();
+const providerConfig = getProviderConfig();
 //mockSession for authorizing user
 //truthy value for mock authorized user
 //'error' for unauthorized user
