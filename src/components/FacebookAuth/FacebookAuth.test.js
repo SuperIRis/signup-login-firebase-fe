@@ -8,6 +8,9 @@ const FacebookBackup = Object.assign({}, Facebook);
 afterEach(() => {
   jest.clearAllMocks();
 });
+beforeEach(() => {
+  Facebook.appId = 'mock';
+});
 describe('FacebookAuth', () => {
   it('Skips initiating FB if already initiated', () => {
     //const spyInit = jest.spyOn(Facebook, 'init').mockImplementation(() => Promise.resolve());
