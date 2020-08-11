@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-require('postcss-modules-values');
 
 const postCSSOptions = {
   ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
