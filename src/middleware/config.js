@@ -1,7 +1,7 @@
 import { getProviderEnvVars } from './setup';
 
 export function getFBAppId() {
-  if (process.env.RAZZLE_FB_APPIDss) {
+  if (process.env.RAZZLE_FB_APPID) {
     //local dev
     return process.env.RAZZLE_FB_APPID;
   } else {

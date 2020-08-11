@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import configureStore from './common/configureStore';
 import serialize from 'serialize-javascript';
 import auth from './models/auth';
-import { getProviderEnvVars } from '../middleware/setup';
+import { getProviderEnvVars } from './middleware/setup';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 const providerConfig = getProviderEnvVars();
