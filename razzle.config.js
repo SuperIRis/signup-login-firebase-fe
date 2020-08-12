@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const postCSSOptions = {
   ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
@@ -89,6 +90,7 @@ module.exports = {
     if (!config.devServer) {
       config.devServer = {};
     }
+    //replace css loader rules with standard css-loader and custom postCSSOptions
     if (target === 'node') {
       replaceCSSLoader(findCSSRuleFromConfig(config.module.rules), nodeConfig);
     } else if (dev) {
@@ -97,8 +99,6 @@ module.exports = {
       replaceCSSLoader(findCSSRuleFromConfig(config.module.rules), defaultConfig);
     }
     if (dev) {
-      //replace css loader rules with standard css-loader and custom postCSSOptions
-
       //Read local SSL files to be able to test in https in localhost
       config.devServer.https = {
         key: fs.readFileSync('./ssl2/localhost+2-key.pem'),
@@ -106,6 +106,16 @@ module.exports = {
       };
     }
     config.plugins = [...config.plugins, require('postcss-modules-values')];
+
+    if (process.env.BUNDLE_ANALYZE === 'true' && target === 'web') {
+      config.optimization.concatenateModules = false;
+      config.plugins.push(
+        new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
+          analyzerPort: 2000,
+        })
+      );
+    }
+
     config.node = {
       fs: 'empty', //this is to prevent webpack to attempt to load fs module in the bundle for client app (we are using it conditionally only on server)
     };
