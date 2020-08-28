@@ -1,5 +1,3 @@
-export const FIREBASE = 'FIREBASE';
-
 let firebaseEnvVars = {};
 
 export function getEnvVars() {

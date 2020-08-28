@@ -9,7 +9,7 @@ import { SOCIAL_AUTH_FACEBOOK } from '../../models/constants';
 
 //three dev modes:
 //to prefill form
-const testData = process.env.NODE_ENV === 'development' && false; // change to false when testing without data
+const testData = process.env.NODE_ENV === 'development' && true; // change to false when testing without data
 //to make a mock request to the API that returns an error
 const mockRequestError = 'error';
 //to make a mock request to the API that returns success and mock data

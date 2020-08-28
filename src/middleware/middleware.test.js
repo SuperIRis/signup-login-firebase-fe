@@ -1,4 +1,4 @@
-import { getEnvVars, FIREBASE } from './firebaseConfig';
+import { getEnvVars, FIREBASE } from './firebase/firebaseEnv';
 import { getProviderEnvVars } from './setup';
 import { getFBAppId } from './config';
 import * as provider from './provider';

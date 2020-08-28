@@ -7,7 +7,9 @@ import Home from '../home/Home';
 import PrivateRoute from '../../router/PrivateRoute';
 import GuestRoute from '../../router/GuestRoute';
 import HomeGuest from '../HomeGuest';
+import { setup as middlewareSetup } from '../../middleware/setup';
 
+middlewareSetup();
 const App = () => (
   <Switch>
     <GuestRoute exact path='/' component={HomeGuest} />

@@ -1,6 +1,7 @@
 import { SUCCESS_STATUS } from './constants';
 import request from './request';
 import errors from './errorDictionary';
+import { signup } from '../middleware/auth';
 
 const host = `https://${process.env.HOST}:${Number(process.env.PORT)}/`;
 // we are saving the token in local storage
@@ -51,6 +52,9 @@ const auth = {
    * @param {string} name      User's name (only register)
    */
   signup({ username, password, email, country, fullName }, mock) {
+    //test firebase signup
+    signup({ email, password });
+    return;
     const mockEndpoint = mock === 'error' ? 'mock/error.json' : 'mock/signup.json';
     const realEndpoint = 'mock/login.json'; //update with real endpoint once ready
 
