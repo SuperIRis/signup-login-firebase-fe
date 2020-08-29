@@ -3,7 +3,7 @@ logs
 npm-debug.log*
 .DS_Store
 
-coverage
+coverage/
 node_modules
 build
 .env.local
