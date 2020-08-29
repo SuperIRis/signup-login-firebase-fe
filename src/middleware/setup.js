@@ -5,13 +5,11 @@ import firebase from 'firebase/app';
 
 export function getProviderEnvVars() {
   if (getProvider() === FIREBASE) {
-    console.log('get vars');
     return getFirebaseEnvVars();
   }
 }
 
 export function setup() {
-  console.log('yo!!!!');
   if (getProvider() === FIREBASE) {
     const firebaseConfig = require(process.env.NODE_ENV != 'production'
       ? './firebase/firebaseConfig.staging.js'

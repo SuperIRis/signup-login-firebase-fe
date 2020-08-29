@@ -10,6 +10,7 @@ import auth from './models/auth';
 import { getProviderEnvVars } from './middleware/setup';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+console.log('Compiling', process.env.NODE_ENV);
 const providerConfig = getProviderEnvVars();
 //mockSession for authorizing user
 //truthy value for mock authorized user
