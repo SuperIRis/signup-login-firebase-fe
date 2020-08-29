@@ -9,7 +9,7 @@ unit-tests:
 build:
   stage: build
   script:
-    - npm run-script build
+    - RUNNING_ENV=staging npm run-script build
 staging:
   stage: deploy
   script: 
