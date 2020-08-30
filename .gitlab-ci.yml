@@ -9,7 +9,7 @@ unit-tests:
 build:
   stage: build
   script:
-    - RUNNING_ENV=staging npm run-script build
+    - RAZZLE_RUNNING_ENV=staging npm run-script build
 staging:
   stage: deploy
   script: 

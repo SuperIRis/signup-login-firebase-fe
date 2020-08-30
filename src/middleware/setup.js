@@ -13,7 +13,7 @@ export function getProviderEnvVars() {
 
 export function setup() {
   if (getProvider() === FIREBASE && !firebase.apps.length) {
-    const firebaseConfig = require(process.env.RUNNING_ENV != 'production'
+    const firebaseConfig = require(process.env.RAZZLE_RUNNING_ENV != 'production'
       ? './firebase/firebaseConfig.staging.js'
       : './firebase/firebaseConfig.production.js').firebaseConfig;
     firebase.initializeApp(firebaseConfig);

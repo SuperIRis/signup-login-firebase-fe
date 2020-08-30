@@ -5,6 +5,7 @@ import { getFBAppId } from './config';
 import * as provider from './provider';
 
 describe('Middleware', () => {
+  console.log('TESTING ------->', process.env.RAZZLE_RUNNING_ENV);
   const test = require('firebase-functions-test')(
     {
       /*databaseURL: 'https://my-project.firebaseio.com',
