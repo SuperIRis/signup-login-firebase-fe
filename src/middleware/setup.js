@@ -3,6 +3,8 @@ import { FIREBASE } from './firebase/firebaseConstants';
 import { getProvider } from './provider';
 import firebase from 'firebase/app';
 
+const env = process.env.RAZZLE_RUNNING_ENV;
+
 export function getProviderEnvVars() {
   if (getProvider() === FIREBASE) {
     return getFirebaseEnvVars();
@@ -13,7 +15,7 @@ export function getProviderEnvVars() {
 
 export function setup() {
   if (getProvider() === FIREBASE && !firebase.apps.length) {
-    const firebaseConfig = require(process.env.RAZZLE_RUNNING_ENV != 'production'
+    const firebaseConfig = require(env != 'production'
       ? './firebase/firebaseConfig.staging.js'
       : './firebase/firebaseConfig.production.js').firebaseConfig;
     firebase.initializeApp(firebaseConfig);
