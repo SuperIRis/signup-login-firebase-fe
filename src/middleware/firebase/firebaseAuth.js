@@ -1,20 +1,34 @@
+import { SUCCESS_STATUS } from '../../models/constants';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 export function firebaseSignup({ email, password }) {
-  console.log('hello I am firebase signup');
-  firebase
+  return firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then((res) => {
-      console.log('success in firebase auth', res);
+      res.status = SUCCESS_STATUS;
+      return res;
     })
     .catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
-      console.log('so sad...', error);
+      console.log('FIREBASE AUTH: error while creating user', error);
 
       // ...
+    });
+}
+
+export function firebaseRemoveCurrentUser() {
+  const user = firebase.auth().currentUser;
+  return user
+    .delete()
+    .then(function() {
+      // User deleted.
+    })
+    .catch(function(error) {
+      // An error happened.
+      console.log('FIREBASE AUTH: error while removing user', error);
     });
 }

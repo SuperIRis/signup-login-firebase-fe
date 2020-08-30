@@ -23,7 +23,6 @@ const Facebook = {
     fjs.parentNode.insertBefore(js, fjs);
   },
   init() {
-    console.log('init', Facebook.appId);
     return new Promise((res, rej) => {
       if (typeof document === 'undefined') {
         rej({ error: 'FB Login not available on SSR' });
