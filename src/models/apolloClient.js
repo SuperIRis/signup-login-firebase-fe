@@ -6,9 +6,10 @@ if (isNode() && !global.fetch) {
 }
 
 console.log('TODO: GET URI FROM MIDDLEWARE');
+console.log('TODO: TEST MODE FOR URI');
 const client = new ApolloClient({
-  //uri: 'https://us-central1-mokuroku-staging.cloudfunctions.net/graphql/api',
-  uri: 'http://localhost:5001/mokuroku-staging/us-central1/graphql/api',
+  uri: 'https://us-central1-mokuroku-staging.cloudfunctions.net/graphql/api',
+  //uri: 'http://localhost:5001/mokuroku-staging/us-central1/graphql/api',
   cache: new InMemoryCache(),
 });
 

@@ -9,7 +9,6 @@ export function getProviderEnvVars() {
   if (getProvider() === FIREBASE) {
     return getFirebaseEnvVars();
   }
-  console.error('getProvider', getProvider);
   return console.error('No provider selected', getProvider());
 }
 

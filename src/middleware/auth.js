@@ -17,9 +17,6 @@ const ADD_USER = gql`
 export function signup(data) {
   console.log('signup');
   return firebaseSignup(data).then((res) => {
-    console.log('ress:::::', res);
-    console.log('auth confirmed, let´s save user', { ...data, id: res.user.uid });
-    console.log('TODO: Save idToken');
     client.mutate({
       mutation: ADD_USER,
       variables: { ...data, id: res.user.uid },
