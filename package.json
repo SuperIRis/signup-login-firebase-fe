@@ -16,11 +16,13 @@
     "analyze": "BUNDLE_ANALYZE=true razzle build"
   },
   "dependencies": {
+    "@apollo/client": "^3.2.5",
     "express": "^4.17.1",
     "firebase": "^7.17.2",
     "firebase-admin": "^8.11.0",
     "firebase-functions": "^3.6.1",
     "formik": "^2.1.4",
+    "graphql": "^15.4.0",
     "localStorage": "^1.0.4",
     "node-fetch": "^2.6.0",
     "react": "^16.13.1",

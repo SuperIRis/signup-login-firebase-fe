@@ -53,7 +53,7 @@ const auth = {
    */
   signup({ username, password, email, country, fullName }, mock) {
     //test firebase signup
-    return middlewareSignup({ email, password });
+    return middlewareSignup({ username, password, email, country, fullName });
 
     const mockEndpoint = mock === 'error' ? 'mock/error.json' : 'mock/signup.json';
     const realEndpoint = 'mock/login.json'; //update with real endpoint once ready

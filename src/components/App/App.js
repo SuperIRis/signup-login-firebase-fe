@@ -7,9 +7,13 @@ import Home from '../home/Home';
 import PrivateRoute from '../../router/PrivateRoute';
 import GuestRoute from '../../router/GuestRoute';
 import HomeGuest from '../HomeGuest';
+import { ApolloProvider } from '@apollo/client';
+import client from '../../models/apolloClient';
 import { setup as middlewareSetup } from '../../middleware/setup';
 
+//this is for setting the infra provider, like Firebase. Not related to React context provider
 middlewareSetup();
+
 const App = () => (
   <Switch>
     <GuestRoute exact path='/' component={HomeGuest} />
