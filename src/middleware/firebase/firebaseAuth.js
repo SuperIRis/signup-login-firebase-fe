@@ -6,10 +6,6 @@ export function firebaseSignup({ email, password }) {
   return firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
-    .then((res) => {
-      res.status = SUCCESS_STATUS;
-      return res;
-    })
     .catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
@@ -20,12 +16,12 @@ export function firebaseSignup({ email, password }) {
     });
 }
 
-export function firebaseRemoveCurrentUser() {
+export function firebaseRemoveUser() {
   const user = firebase.auth().currentUser;
   return user
     .delete()
-    .then(function() {
-      // User deleted.
+    .then(() => {
+      return Promise.resolve(user);
     })
     .catch(function(error) {
       // An error happened.

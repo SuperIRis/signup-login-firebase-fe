@@ -1,7 +1,8 @@
 import { SUCCESS_STATUS } from './constants';
 import request from './request';
 import errors from './errorDictionary';
-import { signup as middlewareSignup, removeCurrentUser as middlewareRemoveCurrentUser } from '../middleware/auth';
+import { signup as middlewareSignup, removeUser as middlewareRemoveUser } from '../middleware/auth';
+//import removeUser from './graphql/mutations/removeUser';
 
 const host = `https://${process.env.HOST}:${Number(process.env.PORT)}/`;
 // we are saving the token in local storage
@@ -98,8 +99,8 @@ const auth = {
       }
     });
   },
-  removeCurrentUser() {
-    middlewareRemoveCurrentUser();
+  removeUser() {
+    return middlewareRemoveUser();
   },
 };
 

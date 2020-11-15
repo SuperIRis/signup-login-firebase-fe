@@ -1,7 +1,6 @@
 import auth from './auth';
 import { SUCCESS_STATUS } from './constants';
 import { setup as middlewareSetup } from '../middleware/setup';
-import { removeCurrentUser as middlewareRemoveCurrentUser } from '../middleware/auth';
 
 const localStorage = require('localStorage');
 describe('Auth', () => {
@@ -27,7 +26,7 @@ describe('Auth', () => {
       .signup({
         fullName: 'Dev Iris',
         email: 'unit-test@iris.com',
-        username: 'superiris',
+        username: 'superiris-unit-test',
         country: 'Mexico',
         password: 'Admin123',
         passwordConfirmation: 'Admin123',
@@ -38,7 +37,7 @@ describe('Auth', () => {
       .then((res) => {
         expect(res.status).toEqual(SUCCESS_STATUS);
         //expect(localStorage.token).toEqual('123');
-        middlewareRemoveCurrentUser().then(() => {
+        auth.removeUser().then((res) => {
           done();
         });
       });

@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { isNode } from '../utils/utilities';
+import { isNode } from '../../utils/utilities';
 if (isNode() && !global.fetch) {
   //no fetch
   global.fetch = require('node-fetch');

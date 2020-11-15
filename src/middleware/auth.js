@@ -1,31 +1,25 @@
-import { firebaseSignup, firebaseRemoveCurrentUser } from './firebase/firebaseAuth';
+import { firebaseSignup, firebaseRemoveUser } from './firebase/firebaseAuth';
 import { FIREBASE } from './firebase/firebaseConstants';
 import { getProvider } from './provider';
-import client from '../models/apolloClient';
-import { gql } from '@apollo/client';
-
-const ADD_USER = gql`
-  mutation addUser($id: String!, $fullName: String!, $username: String!, $email: String!, $country: String!) {
-    addUser(id: $id, fullName: $fullName, username: $username, email: $email, country: $country) {
-      id
-      username
-      email
-    }
-  }
-`;
+import addUser from '../models/graphql/mutations/addUser';
+import removeUserMutation from '../models/graphql/mutations/removeUser';
+import { SUCCESS_STATUS } from '../models/constants';
 
 export function signup(data) {
-  console.log('signup');
-  return firebaseSignup(data).then((res) => {
-    client.mutate({
-      mutation: ADD_USER,
-      variables: { ...data, id: res.user.uid },
+  if (getProvider() === FIREBASE) {
+    return firebaseSignup(data).then((res) => {
+      return addUser({ ...data, id: res.user.uid }).then((res) => {
+        res.status = SUCCESS_STATUS;
+        return res;
+      });
     });
-  });
+  }
 }
 
-export function removeCurrentUser() {
+export function removeUser() {
   if (getProvider() === FIREBASE) {
-    return firebaseRemoveCurrentUser();
+    return firebaseRemoveUser().then((res) => {
+      return removeUserMutation({ id: res.uid });
+    });
   }
 }
