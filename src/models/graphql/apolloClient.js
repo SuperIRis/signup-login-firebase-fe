@@ -1,15 +1,13 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { isNode } from '../../utils/utilities';
+import { getGraphQLEndpointURI } from '../../middleware/config';
 if (isNode() && !global.fetch) {
   //no fetch
   global.fetch = require('node-fetch');
 }
 
-console.log('TODO: GET URI FROM MIDDLEWARE');
-console.log('TODO: TEST MODE FOR URI');
 const client = new ApolloClient({
-  uri: 'https://us-central1-mokuroku-staging.cloudfunctions.net/graphql/api',
-  //uri: 'http://localhost:5001/mokuroku-staging/us-central1/graphql/api',
+  uri: getGraphQLEndpointURI(),
   cache: new InMemoryCache(),
 });
 

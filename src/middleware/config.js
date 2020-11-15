@@ -9,3 +9,11 @@ export function getFBAppId() {
     return getProviderEnvVars() && getProviderEnvVars().facebook && getProviderEnvVars().facebook.appid;
   }
 }
+
+export function getGraphQLEndpointURI() {
+  if (process.env.RAZZLE_GRAPHQL_URI) {
+    return process.env.RAZZLE_GRAPHQL_URI;
+  } else {
+    return getProviderEnvVars() && getProviderEnvVars().graphql.uri;
+  }
+}
