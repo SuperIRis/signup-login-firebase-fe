@@ -1,4 +1,4 @@
-import { SUCCESS_STATUS } from '../../models/constants';
+import errorDictionary from '../../models/errorDictionary';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -7,12 +7,12 @@ export function firebaseSignup({ email, password }) {
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log('FIREBASE AUTH: error while creating user', error);
-
-      // ...
+      // For full list of errors check https://firebase.google.com/docs/reference/js/firebase.auth.Auth
+      let errorMessage = error.message;
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = errorDictionary.EMAIL_ALREADY_IN_USE;
+      }
+      throw new Error(errorMessage);
     });
 }
 

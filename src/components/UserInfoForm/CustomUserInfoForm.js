@@ -47,7 +47,6 @@ const userInfoSchema = Yup.object().shape({
 
 const CustomUserInfoForm = (props) => {
   //creating initialValues object without password and passwordConfirmation
-
   return (
     <Formik enableReinitialize initialValues={props.values} validationSchema={userInfoSchema} onSubmit={props.onSubmit}>
       {({ errors, touched, values }) => (
@@ -87,10 +86,10 @@ const CustomUserInfoForm = (props) => {
             checked={values.terms}
             error={touched.terms ? errors.terms : null}
           />
+          {props.serverError ? <div className={styles.serverError}>{props.serverError}</div> : null}
           <button type='submit' className={styles.submitBtn}>
             Submit
           </button>
-          {props.serverError ? <div>{props.serverError}</div> : null}
         </Form>
       )}
     </Formik>

@@ -11,7 +11,7 @@ import { SOCIAL_AUTH_FACEBOOK } from '../../models/constants';
 //to prefill form
 const testData = process.env.NODE_ENV === 'development' && true; // change to false when testing without data
 //to make a mock request to the API that returns an error
-const mockRequestError = 'error';
+const mockRequestError = '';
 //to make a mock request to the API that returns success and mock data
 const mockRequestSuccess = 'success';
 
@@ -28,7 +28,7 @@ export const Signup = ({ dispatch, data }) => {
     birthDateYYYY: testData ? '1982' : '',
     terms: testData ? true : false,
   };
-  let serverError;
+  const serverError = data.error && data.error.message && !mockRequestError ? data.error.message : null;
 
   const [formValues, setFormValues] = useState(prefilledData);
   const [signupMethod, setSignupMethod] = useState(); //custom or FB
@@ -53,10 +53,6 @@ export const Signup = ({ dispatch, data }) => {
     setSignupMethod(SOCIAL_AUTH_FACEBOOK);
   };
 
-  //check if server error. USER_UNKNOWN is not an error for signup, it just means the user hasn't registered before
-  if (data.error && data.error.raw && errors[data.error.raw] !== errors.USER_UNKNOWN && !mockRequestError) {
-    serverError = data.error.message;
-  }
   if (!data.loggedState) {
     return (
       <section>
@@ -64,13 +60,7 @@ export const Signup = ({ dispatch, data }) => {
         <h2>Register with Facebook</h2>
         <FacebookAuth onAuthorized={onFacebookAuthorized} />
         <h2>Register with your email</h2>
-        <UserInfoForm
-          onSubmit={submitForm}
-          serverError={serverError}
-          values={formValues}
-          signupMethod={signupMethod}
-          serverError={serverError}
-        />
+        <UserInfoForm onSubmit={submitForm} serverError={serverError} values={formValues} signupMethod={signupMethod} />
       </section>
     );
   } else {

@@ -20,6 +20,12 @@
     width:100%;
 } 
 
+.serverError{
+    color:red;
+    font-size: input-font-size-small;
+    padding: main-padding-size 0 0;
+}
+
 
 /* this should be in a generic section */
 section:global{
