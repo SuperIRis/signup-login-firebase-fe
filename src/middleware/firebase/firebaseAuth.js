@@ -16,6 +16,28 @@ export function firebaseSignup({ email, password }) {
     });
 }
 
+function firebaseLoginFacebook(facebook) {
+  const { response } = facebook;
+  /*firebase.auth().onAuthStateChanged((firebaseUser) => {
+    console.log('----------- on auth state changed:', firebaseUser);
+  });
+  */
+  const credential = firebase.auth.FacebookAuthProvider.credential(response.authResponse.accessToken);
+  return firebase
+    .auth()
+    .signInWithCredential(credential)
+    .catch((error) => {
+      console.log('error!', error);
+    });
+}
+
+export function firebaseLoginWithSM(data) {
+  if (data.response) {
+    //if response exists, it is a facebook login
+    return firebaseLoginFacebook(data);
+  }
+}
+
 export function firebaseRemoveUser() {
   const user = firebase.auth().currentUser;
   return user

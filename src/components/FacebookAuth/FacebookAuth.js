@@ -9,7 +9,7 @@ const FacebookAuth = ({ onAuthorized, children }) => {
     if (Facebook.status === Facebook.AUTHORIZED) {
       //already logged in FB (obtained from facebook init)
       //check if user has already signed up before
-      onAuthorized(Facebook.user);
+      onAuthorized({ user: Facebook.user, response: Facebook.response });
     } else {
       Facebook.login()
         .then((res) => {

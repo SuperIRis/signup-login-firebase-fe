@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signupRequest, loginRequest } from '../../actions/actions';
+import { signupRequest, verifyUserForSignupRequest } from '../../actions/actions';
 import UserInfoForm from '../UserInfoForm';
 import FacebookAuth from '../FacebookAuth';
 import errors from '../../models/errorDictionary';
-import { SOCIAL_AUTH_FACEBOOK } from '../../models/constants';
+import { SOCIAL_AUTH_FACEBOOK, CUSTOM_AUTH } from '../../models/constants';
 
 //three dev modes:
 //to prefill form
@@ -13,9 +13,10 @@ const testData = process.env.NODE_ENV === 'development' && true; // change to fa
 //to make a mock request to the API that returns an error
 const mockRequestError = '';
 //to make a mock request to the API that returns success and mock data
-const mockRequestSuccess = 'success';
+const mockRequestSuccess = '';
 
 export const Signup = ({ dispatch, data }) => {
+  console.log('signup data', data);
   const prefilledData = {
     fullName: testData ? 'Dev Iris' : '',
     email: testData ? 'iris@iris.com' : '',
@@ -31,15 +32,17 @@ export const Signup = ({ dispatch, data }) => {
   const serverError = data.error && data.error.message && !mockRequestError ? data.error.message : null;
 
   const [formValues, setFormValues] = useState(prefilledData);
-  const [signupMethod, setSignupMethod] = useState(); //custom or FB
+  const [signupMethod, setSignupMethod] = useState(CUSTOM_AUTH); //custom or FB
 
   const submitForm = (values) => {
-    dispatch(signupRequest(values, mockRequestSuccess));
+    console.log('submit form');
+    dispatch(signupRequest({ ...data.user, ...values, signupMethod }, mockRequestSuccess));
   };
 
-  const onFacebookAuthorized = (userData) => {
-    dispatch(loginRequest({ fbid: userData.id }, mockRequestError)); //second parameter can be mock, we want this to fail to be able to test the fb signup without removing the app from our FB account each test
-    prefillFields(userData);
+  const onFacebookAuthorized = (facebookData) => {
+    console.log('on authorized', facebookData);
+    dispatch(verifyUserForSignupRequest(facebookData, mockRequestError)); //second parameter can be mock, we want this to fail to be able to test the fb signup without removing the app from our FB account each test
+    prefillFields(facebookData.user);
   };
 
   const prefillFields = (user) => {
@@ -47,7 +50,7 @@ export const Signup = ({ dispatch, data }) => {
       ...formValues,
       fullName: user.name,
       email: user.email,
-      socialMethod: SOCIAL_AUTH_FACEBOOK,
+      signupMethod: SOCIAL_AUTH_FACEBOOK,
       socialId: user.id,
     });
     setSignupMethod(SOCIAL_AUTH_FACEBOOK);

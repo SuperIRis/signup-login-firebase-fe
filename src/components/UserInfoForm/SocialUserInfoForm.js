@@ -9,10 +9,9 @@ import { SOCIAL_AUTH_FACEBOOK, SOCIAL_AUTH_GOOGLE } from '../../models/constants
 import * as Yup from 'yup';
 
 const userInfoSchema = Yup.object().shape({
-  socialMethod: Yup.string()
+  signupMethod: Yup.string()
     .oneOf([SOCIAL_AUTH_FACEBOOK, SOCIAL_AUTH_GOOGLE], 'Social Login invalid')
     .required('Required'),
-  socialId: Yup.string().required('Required'),
   fullName: Yup.string()
     .min(3, 'Too Short!')
     .max(50, 'Too Long!')
@@ -40,13 +39,11 @@ const userInfoSchema = Yup.object().shape({
 
 const SocialUserInfoForm = (props) => {
   //creating initialValues object without password and passwordConfirmation
-
   return (
     <Formik enableReinitialize initialValues={props.values} validationSchema={userInfoSchema} onSubmit={props.onSubmit}>
       {({ errors, touched, values }) => (
         <Form className={styles.infoForm}>
-          <Field name='socialMethod' type='hidden' />
-          <Field name='socialId' type='hidden' />
+          <Field name='signupMethod' type='hidden' />
           <FullField label='Username' name='username' error={touched.username ? errors.username : null} />
           <FullField
             label='Full name'

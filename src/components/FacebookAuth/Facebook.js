@@ -40,9 +40,10 @@ const Facebook = {
             });
             FB.getLoginStatus(function(response) {
               Facebook.status = response.status;
+              Facebook.response = response;
               if (response.status === Facebook.AUTHORIZED) {
                 Facebook.getUserInfo()
-                  .then((info) => res(info))
+                  .then((user) => res({ user, response }))
                   .catch((err) => rej(err));
               } else {
                 res(response);
@@ -63,9 +64,10 @@ const Facebook = {
       FB.login(
         function(response) {
           Facebook.status = response.status;
+          Facebook.response = response;
           if (response.status === Facebook.AUTHORIZED) {
             Facebook.getUserInfo()
-              .then((info) => res(info))
+              .then((user) => res({ user, response }))
               .catch((err) => rej(err));
           } else {
             rej(response);

@@ -5,6 +5,7 @@ import FullField from '../FormElements/FullField';
 import DateField from '../FormElements/DateField';
 import Label from '../FormElements/Label';
 import Select from '../FormElements/Select';
+import errorDictionary from '../../models/errorDictionary';
 import * as Yup from 'yup';
 
 const userInfoSchema = Yup.object().shape({
@@ -46,12 +47,21 @@ const userInfoSchema = Yup.object().shape({
 });
 
 const CustomUserInfoForm = (props) => {
+  //If the server error is related to a field, we want to add error styles to that field
+  const serverErrors = {};
+  serverErrors.EMAIL_ALREADY_IN_USE = props.serverError === errorDictionary.EMAIL_ALREADY_IN_USE || null;
+  serverErrors.USERNAME_ALREADY_IN_USE = props.serverError === errorDictionary.USERNAME_ALREADY_IN_USE || null;
+
   //creating initialValues object without password and passwordConfirmation
   return (
     <Formik enableReinitialize initialValues={props.values} validationSchema={userInfoSchema} onSubmit={props.onSubmit}>
       {({ errors, touched, values }) => (
         <Form className={styles.infoForm}>
-          <FullField label='Username*' name='username' error={touched.username ? errors.username : null} />
+          <FullField
+            label='Username*'
+            name='username'
+            error={touched.username ? errors.username || serverErrors.USERNAME_ALREADY_IN_USE : null}
+          />
           <FullField
             label='Password*'
             name='password'
@@ -70,7 +80,12 @@ const CustomUserInfoForm = (props) => {
             error={touched.fullName ? errors.fullName : null}
             value={values.fullName}
           />
-          <FullField label='Email*' name='email' error={touched.email ? errors.email : null} value={values.email} />
+          <FullField
+            label='Email*'
+            name='email'
+            error={touched.email ? errors.email || serverErrors.EMAIL_ALREADY_IN_USE : null}
+            value={values.email}
+          />
 
           <Label htmlFor='country'>Country*</Label>
           <Select name='country' id='country' error={touched.country ? errors.country : null} value={values.country}>

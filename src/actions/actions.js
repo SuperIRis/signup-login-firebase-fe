@@ -1,4 +1,12 @@
-import { SIGNUP_REQUEST, SENDING_REQUEST, SET_AUTH, LOGIN_REQUEST, SET_ERROR, CLEAR_ERROR } from './constants';
+import {
+  SIGNUP_REQUEST,
+  SENDING_REQUEST,
+  SET_AUTH,
+  LOGIN_REQUEST,
+  VERIFY_USER_FOR_SIGNUP_REQUEST,
+  SET_ERROR,
+  CLEAR_ERROR,
+} from './constants';
 
 /**
  * Sets the `currentlySending` state, which displays loading indicator during requests
@@ -39,6 +47,17 @@ export function signupRequest(data, mock) {
 
 export function loginRequest(data, mock) {
   return { type: LOGIN_REQUEST, data, mock };
+}
+
+/**
+ * We want to verify if a user exists before signing them up
+ * @param {object} data           data used for login the user
+ * @param {string} data.user      user's username
+ * @param {string} data.response  user's password
+ */
+
+export function verifyUserForSignupRequest(data, mock) {
+  return { type: VERIFY_USER_FOR_SIGNUP_REQUEST, data, mock };
 }
 
 /**
