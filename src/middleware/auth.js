@@ -15,9 +15,11 @@ function signupWithUserAndPassword(data) {
 
 function storeUserInDB(data) {
   //we don't need password in the database, firebase is handling the auth
-  delete data.password;
-  delete data.passwordConfirmation;
-  return addUser(data)
+
+  const birthDate = `${data.birthDateYYYY}-${('0' + data.birthDateMM).slice(-2)}-${('0' + data.birthDateDD).slice(-2)}`;
+  const { id, email, fullName, username, country, socialId, providerId } = data;
+  const userData = { id, email, fullName, username, country, socialId, providerId, birthDate };
+  return addUser(userData)
     .then((res) => {
       res.status = SUCCESS_STATUS;
       return res;
@@ -60,7 +62,6 @@ export function verifyUserForSignup(data) {
       const relevantUserData = {
         id: res.user.uid,
         socialId: res.additionalUserInfo.profile.id,
-        picture: res.additionalUserInfo.profile.picture,
         providerId: res.additionalUserInfo.providerId,
       };
       if (!res.additionalUserInfo.isNewUser) {
