@@ -94,6 +94,7 @@ export function verifyUserForSignup(data) {
 export function removeUser() {
   if (getProvider() === FIREBASE) {
     return firebaseRemoveUser().then((res) => {
+      console.log('user removed from auth', res.uid);
       return removeUserMutation({ id: res.uid });
     });
   }

@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import client from '../apolloClient';
 
 const REMOVE_USER = gql`
-  mutation deleteUser($id: String!) {
+  mutation deleteUser($id: ID!) {
     deleteUser(id: $id) {
       id
     }

@@ -18,6 +18,7 @@ describe('Auth', () => {
     });
   });*/
   it('Signs up a user when info is provided', (done) => {
+    jest.setTimeout(10000);
     console.log(
       'WARNING: this unit test is querying Firebase real staging project. If it is executed too much, it can cause costs.'
     );
