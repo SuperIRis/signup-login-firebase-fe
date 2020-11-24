@@ -33,6 +33,7 @@ describe('Auth', () => {
         birthDateDD: '26',
         birthDateMM: '8',
         birthDateYYYY: '1982',
+        signupMethod: 'CUSTOM_AUTH',
       })
       .then((res) => {
         expect(res.status).toEqual(SUCCESS_STATUS);

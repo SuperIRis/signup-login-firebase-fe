@@ -3,7 +3,7 @@ import client from '../apolloClient';
 
 const ADD_USER = gql`
   mutation addUser(
-    $id: String!
+    $id: ID!
     $fullName: String!
     $username: String!
     $email: String!
@@ -22,7 +22,6 @@ const ADD_USER = gql`
       providerId: $providerId
       birthDate: $birthDate
     ) {
-      id
       username
       email
     }

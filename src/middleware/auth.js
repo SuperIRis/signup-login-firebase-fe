@@ -39,6 +39,7 @@ function storeUserInDB(data) {
 }
 
 function signupWithFacebook(data) {
+  //as the user was "verified" before, we already have an id in the data object
   return storeUserInDB(data);
 }
 
@@ -54,7 +55,6 @@ export function signup(data) {
 
 export function verifyUserForSignup(data) {
   //this is right now only being used for verifying if the user is registered previously with facebook.
-  //probably a name change would be in order
   if (getProvider() === FIREBASE) {
     return firebaseLoginWithSM(data).then((res) => {
       // this will return a success if the user is new (verified for signup)

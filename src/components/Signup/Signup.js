@@ -16,7 +16,6 @@ const mockRequestError = '';
 const mockRequestSuccess = '';
 
 export const Signup = ({ dispatch, data }) => {
-  console.log('signup data', data);
   const prefilledData = {
     fullName: testData ? 'Dev Iris' : '',
     email: testData ? 'iris@iris.com' : '',
@@ -35,12 +34,13 @@ export const Signup = ({ dispatch, data }) => {
   const [signupMethod, setSignupMethod] = useState(CUSTOM_AUTH); //custom or FB
 
   const submitForm = (values) => {
-    console.log('submit form');
     dispatch(signupRequest({ ...data.user, ...values, signupMethod }, mockRequestSuccess));
   };
 
   const onFacebookAuthorized = (facebookData) => {
-    console.log('on authorized', facebookData);
+    //when signing up with Facebook, we need to ensure the user hasn't signed up before
+    //so we verify if they are eligible for signup
+    //if they are not, means they were already there and we can just redirect them to home (by setting the auth, route handles it)
     dispatch(verifyUserForSignupRequest(facebookData, mockRequestError)); //second parameter can be mock, we want this to fail to be able to test the fb signup without removing the app from our FB account each test
     prefillFields(facebookData.user);
   };

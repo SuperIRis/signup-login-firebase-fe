@@ -96,6 +96,7 @@ const auth = {
           }
         });
     } else {
+      console.log('middleware signup');
       return middlewareSignup(data);
     }
   },

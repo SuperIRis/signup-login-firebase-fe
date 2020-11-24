@@ -9,7 +9,7 @@ describe('Sagas', () => {
   const putLogged = { ...put(setAuthState(true)) };
   const sendRequestTrue = { ...put(sendingRequest(true)) };
   const sendRequestFalse = { ...put(sendingRequest(false)) };
-  const sendError = { ...put(setError(new Error('authType required'))) };
+  const sendError = { ...put(setError(new Error('authType not valid:'))) };
   it('Succesfully go through loginFlow ', () => {
     const gen = loginFlow();
     expect(gen.next().value).toEqual(take('LOGIN_REQUEST'));

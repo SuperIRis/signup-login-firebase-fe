@@ -22,21 +22,20 @@ import errorDictionary from '../models/errorDictionary';
  * @param {object} options        Options
  * @param {string} authType       Can be either SIGNUP_REQUEST or LOGIN_REQUEST (default LOGIN_REQUEST)
  */
-
 export function* authorize(data, authType, mock) {
   //We are sending a request, a chance to show loaders
   yield put({ type: SENDING_REQUEST, sending: true });
   let response;
+  const requests = {
+    SIGNUP_REQUEST: auth.signup,
+    LOGIN_REQUEST: auth.login,
+    VERIFY_USER_FOR_SIGNUP_REQUEST: auth.verifyUserForSignup,
+  };
   try {
-    if (authType === SIGNUP_REQUEST) {
-      response = yield call(auth.signup, data, mock);
-    } else if (authType === LOGIN_REQUEST) {
-      response = yield call(auth.login, data, mock);
-    } else if (authType === VERIFY_USER_FOR_SIGNUP_REQUEST) {
-      response = yield call(auth.verifyUserForSignup, data, mock);
-    } else {
-      throw new Error('authType required');
+    if (!requests[authType]) {
+      throw new Error('authType not valid:', authType);
     }
+    response = yield call(requests[authType], data, mock);
     return response;
   } catch (error) {
     yield put({ type: SET_ERROR, error });
@@ -91,7 +90,6 @@ export function* verifyUserForSignupFlow() {
     const request = yield take(VERIFY_USER_FOR_SIGNUP_REQUEST);
     const data = { ...request.data };
     const result = yield call(authorize, data, VERIFY_USER_FOR_SIGNUP_REQUEST, request.mock);
-    console.log('success-----...----', result);
     if (result.status === errorDictionary.USER_ALREADY_REGISTERED) {
       // verification failed: user exists in DB, we should log them in. Result contains user data, for avoiding calling it again
       yield put({ type: VERIFY_USER_FOR_SIGNUP_REQUEST, verified: false, loggedState: true, user: result.user });
