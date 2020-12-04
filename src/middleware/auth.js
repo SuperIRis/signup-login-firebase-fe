@@ -6,17 +6,24 @@ import removeUserMutation from '../models/graphql/mutations/removeUser';
 import { SUCCESS_STATUS, SOCIAL_AUTH_FACEBOOK, CUSTOM_AUTH } from '../models/constants';
 import errorDictionary from '../models/errorDictionary';
 import getUser from '../models/graphql/queries/getUser';
-
+import firebase from 'firebase/app';
+import { setJWTToken } from '../models/graphql/apolloClient';
 function signupWithUserAndPassword(data) {
   return firebaseSignup(data).then((res) => {
-    return storeUserInDB({ ...data, id: res.user.uid });
+    return firebase
+      .auth()
+      .currentUser.getIdToken(true)
+      .then(function(idToken) {
+        //setting the JWT token into our Apollo Client middleware so it is included as header
+        setJWTToken(idToken);
+        return storeUserInDB({ ...data, id: res.user.uid, idToken });
+      });
   });
 }
 
 function storeUserInDB(data) {
-  //we don't need password in the database, firebase is handling the auth
-
   const birthDate = `${data.birthDateYYYY}-${('0' + data.birthDateMM).slice(-2)}-${('0' + data.birthDateDD).slice(-2)}`;
+  //let´s just send exactly the data we need (for example, omitting password)
   const { id, email, fullName, username, country, socialId, providerId } = data;
   const userData = { id, email, fullName, username, country, socialId, providerId, birthDate };
   return addUser(userData)
