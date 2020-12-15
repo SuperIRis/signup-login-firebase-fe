@@ -8,7 +8,11 @@ if (isNode() && !global.fetch) {
   global.fetch = require('node-fetch');
 }
 
-const httpLink = new HttpLink({ uri: getGraphQLEndpointURI() });
+const httpLink = new HttpLink({
+  uri: getGraphQLEndpointURI(),
+  fetch: global.fetch,
+  credentials: 'include',
+});
 
 let appJWTToken;
 export const setJWTToken = (token) => {

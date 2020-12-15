@@ -7,31 +7,43 @@ import { Provider } from 'react-redux';
 import configureStore from './common/configureStore';
 import serialize from 'serialize-javascript';
 import auth from './models/auth';
-import { getProviderEnvVars } from './middleware/setup';
-
+import { getProviderEnvVars, setup as middlewareSetup } from './middleware/setup';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
-console.log('Compiling', process.env.NODE_ENV);
 const providerConfig = getProviderEnvVars();
 //mockSession for authorizing user
 //truthy value for mock authorized user
 //'error' for unauthorized user
 //falsey value for real API calls
-const mockSession = process.env.NODE_ENV === 'development' && 'error';
-
+const mockSession = process.env.NODE_ENV === 'development' && '';
+middlewareSetup(); //provider, not express middleware
 const server = express();
+server.use(
+  session({
+    secret: '20b11n17-MKRK-4str',
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+server.use(cookieParser());
 server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
+    //we are looking for the httpOnly cookie set in the BE after login
+    //the cookie is named "chomp" and contains the firebaseAuth idToken
     auth
-      .checkIfUserIsAuthenticated(mockSession)
+      .checkIfUserIsAuthenticated(mockSession || req.cookies.chomp)
       .then((data) => {
         //user authenticated
-        const preloadedState = { loggedState: true, sending: false };
+        const preloadedState = { ...data.data, loggedState: !!data.data.currentUser, sending: false };
+        console.log('currentUser state', preloadedState);
         createPage(req, res, preloadedState);
       })
       .catch((error) => {
         //not authenticated
+        //console.log('Not auth user', error);
         const preloadedState = { loggedState: false, sending: false };
         createPage(req, res, preloadedState);
       });

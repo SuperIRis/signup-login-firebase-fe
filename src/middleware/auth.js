@@ -16,7 +16,7 @@ function signupWithUserAndPassword(data) {
       .then(function(idToken) {
         //setting the JWT token into our Apollo Client middleware so it is included as header
         setJWTToken(idToken);
-        return storeUserInDB({ ...data, id: res.user.uid, idToken });
+        return storeUserInDB(data);
       });
   });
 }
@@ -24,8 +24,8 @@ function signupWithUserAndPassword(data) {
 function storeUserInDB(data) {
   const birthDate = `${data.birthDateYYYY}-${('0' + data.birthDateMM).slice(-2)}-${('0' + data.birthDateDD).slice(-2)}`;
   //let´s just send exactly the data we need (for example, omitting password)
-  const { id, email, fullName, username, country, socialId, providerId } = data;
-  const userData = { id, email, fullName, username, country, socialId, providerId, birthDate };
+  const { email, fullName, username, country, socialId } = data;
+  const userData = { email, fullName, username, country, socialId, birthDate };
   return addUser(userData)
     .then((res) => {
       res.status = SUCCESS_STATUS;

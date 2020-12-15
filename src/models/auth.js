@@ -6,6 +6,7 @@ import {
   verifyUserForSignup as middlewareVerifyUserForSignup,
   removeUser as middlewareRemoveUser,
 } from '../middleware/auth';
+import getCurrentUser from './graphql/queries/getCurrentUser';
 //import removeUser from './graphql/mutations/removeUser';
 
 const host = `https://${process.env.HOST}:${Number(process.env.PORT)}/`;
@@ -106,18 +107,19 @@ const auth = {
   /**
    * @todo "Remember me" functionality, with a token in localStorage
    */
-  checkIfUserIsAuthenticated(mock) {
-    const mockEndpoint = mock === 'error' ? host + 'mock/error.json' : host + 'mock/auth.json';
-    const realEndpoint = host + '/mock/auth.json'; //update with real endpoint once ready
-    const endpoint = process.env.NODE_ENV === 'development' && mock ? mockEndpoint : realEndpoint;
-
-    return request.post(endpoint).then((res) => {
-      if (res && res.status === SUCCESS_STATUS) {
-        return Promise.resolve(res);
-      } else {
-        return Promise.reject(res.error);
-      }
-    });
+  checkIfUserIsAuthenticated(idToken) {
+    if (mock && process.env.NODE_ENV === 'development') {
+      const mockEndpoint = mock === 'error' ? host + 'mock/error.json' : host + 'mock/auth.json';
+      return request.post(mockEndpoint).then((res) => {
+        if (res && res.status === SUCCESS_STATUS) {
+          return Promise.resolve(res);
+        } else {
+          return Promise.reject(res.error);
+        }
+      });
+    } else {
+      return getCurrentUser(idToken);
+    }
   },
   removeUser() {
     return middlewareRemoveUser();

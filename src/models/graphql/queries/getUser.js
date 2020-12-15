@@ -3,9 +3,8 @@ import { gql } from '@apollo/client';
 import client from '../apolloClient';
 
 const GET_USER = gql`
-  query User($id: String!) {
+  query USER($id: ID!) {
     user(id: $id) {
-      id
       username
       email
     }
@@ -13,6 +12,7 @@ const GET_USER = gql`
 `;
 
 const getUser = (id) => {
+  console.log('get user', id);
   return client.query({
     query: GET_USER,
     variables: { id },

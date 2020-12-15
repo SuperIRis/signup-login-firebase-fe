@@ -37,6 +37,7 @@ describe('Auth', () => {
         signupMethod: 'CUSTOM_AUTH',
       })
       .then((res) => {
+        console.log('-----res', res);
         expect(res.status).toEqual(SUCCESS_STATUS);
         //expect(localStorage.token).toEqual('123');
         auth.removeUser().then((res) => {
