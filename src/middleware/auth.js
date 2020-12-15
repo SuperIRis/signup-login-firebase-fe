@@ -100,9 +100,10 @@ export function verifyUserForSignup(data) {
 
 export function removeUser() {
   if (getProvider() === FIREBASE) {
-    return firebaseRemoveUser().then((res) => {
-      console.log('user removed from auth', res.uid);
-      return removeUserMutation({ id: res.uid });
+    //we need to remove the user from DB before the firebase one. Only authenticated current user can be removed
+    return removeUserMutation({ id: firebase.auth().currentUser.uid }).then(() => {
+      console.log('user removed from auth', firebase.auth().currentUser.uid);
+      return firebaseRemoveUser();
     });
   }
 }

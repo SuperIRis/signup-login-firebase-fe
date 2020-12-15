@@ -37,13 +37,15 @@ describe('Auth', () => {
         signupMethod: 'CUSTOM_AUTH',
       })
       .then((res) => {
-        console.log('-----res', res);
         expect(res.status).toEqual(SUCCESS_STATUS);
-        //expect(localStorage.token).toEqual('123');
-        auth.removeUser().then((res) => {
-          done();
-        });
-      });
+        auth
+          .removeUser()
+          .then(() => {
+            done();
+          })
+          .catch((error) => console.log('Error when removing user', error));
+      })
+      .catch((error) => console.log('Error on signup', error));
   });
 
   /*it('Logs in a user after signup', (done) => {
