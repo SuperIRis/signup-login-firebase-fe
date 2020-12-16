@@ -34,7 +34,7 @@ server
     //we are looking for the httpOnly cookie set in the BE after login
     //the cookie is named "chomp" and contains the firebaseAuth idToken
     auth
-      .checkIfUserIsAuthenticated(mockSession || req.cookies.chomp)
+      .checkIfUserIsAuthenticated(req.cookies.chomp, mockSession)
       .then((data) => {
         //user authenticated
         const preloadedState = { ...data.data, loggedState: !!data.data.currentUser, sending: false };

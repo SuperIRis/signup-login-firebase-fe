@@ -107,7 +107,7 @@ const auth = {
   /**
    * @todo "Remember me" functionality, with a token in localStorage
    */
-  checkIfUserIsAuthenticated(idToken) {
+  checkIfUserIsAuthenticated(idToken, mock) {
     if (mock && process.env.NODE_ENV === 'development') {
       const mockEndpoint = mock === 'error' ? host + 'mock/error.json' : host + 'mock/auth.json';
       return request.post(mockEndpoint).then((res) => {
