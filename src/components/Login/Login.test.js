@@ -21,7 +21,7 @@ describe('Login', () => {
     global.document = {};
     Object.defineProperty(global.document, 'getElementsByTagName', { value: mockGetElementsByTagName });
     const prefilledData = {
-      username: 'superiris',
+      email: 'iris-test@iris.com',
       password: 'Admin123',
     };
     //this is for Facebook SDK loading that uses document.parentNode.insertBefore
