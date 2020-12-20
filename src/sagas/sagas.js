@@ -75,8 +75,8 @@ export function* signupFlow() {
   while (true) {
     const request = yield take(SIGNUP_REQUEST);
     const data = { ...request.data };
-    const success = yield call(authorize, data, SIGNUP_REQUEST, request.mock);
-    if (success) {
+    const result = yield call(authorize, data, SIGNUP_REQUEST, request.mock);
+    if (result) {
       yield put({ type: SET_AUTH, loggedState: true });
     }
   }

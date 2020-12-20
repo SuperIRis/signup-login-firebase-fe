@@ -12,7 +12,6 @@ const GET_USER = gql`
 `;
 
 const getUser = (id) => {
-  console.log('get user', id);
   return client.query({
     query: GET_USER,
     variables: { id },

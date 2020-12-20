@@ -5,24 +5,28 @@ import { Redirect } from 'react-router-dom';
 import { loginRequest } from '../../actions/actions';
 import LoginForm from './LoginForm';
 import FacebookAuth from '../FacebookAuth';
+import { SOCIAL_AUTH_FACEBOOK, CUSTOM_AUTH } from '../../models/constants';
 
 //to prefill form
 const testData = process.env.NODE_ENV === 'development' && true; // change to false when testing without data
 //to make a mock request to the API that returns success and mock data
 const mockRequestSuccess = 'success';
+const mockRequestError = '';
 
 export const Login = ({ dispatch, data }) => {
   const prefilledData = {
-    username: testData ? 'superiris' : '',
+    email: testData ? 'iris@iris.com' : '',
     password: testData ? 'Admin123' : '',
   };
+  const serverError = data.error && data.error.message && !mockRequestError ? data.error.message : null;
 
   const submitForm = (values) => {
-    dispatch(loginRequest(values), mockRequestSuccess);
+    //dispatch(signupRequest({ ...data.user, ...values, signupMethod }, mockRequestSuccess));
+    dispatch(loginRequest({ ...values, loginMethod: CUSTOM_AUTH }, mockRequestSuccess));
   };
 
-  const onFacebookAuthorized = (userData) => {
-    dispatch(loginRequest({ fbid: userData.id }, mockRequestSuccess));
+  const onFacebookAuthorized = (facebookData) => {
+    dispatch(loginRequest({ loginMethod: SOCIAL_AUTH_FACEBOOK, ...facebookData }, mockRequestSuccess));
   };
 
   if (data.loggedState) {
@@ -31,7 +35,7 @@ export const Login = ({ dispatch, data }) => {
     return (
       <section>
         <h1>Login</h1>
-        <LoginForm onSubmit={submitForm} defaultData={prefilledData} />
+        <LoginForm onSubmit={submitForm} defaultData={prefilledData} serverError={serverError} />
         <p> or </p>
         <FacebookAuth onAuthorized={onFacebookAuthorized}>Login with Facebook</FacebookAuth>
       </section>

@@ -3,6 +3,7 @@ import request from './request';
 import errors from './errorDictionary';
 import {
   signup as middlewareSignup,
+  login as middlewareLogin,
   verifyUserForSignup as middlewareVerifyUserForSignup,
   removeUser as middlewareRemoveUser,
 } from '../middleware/auth';
@@ -30,9 +31,7 @@ const auth = {
    * @param {object} response           Response object obtained from facebook login / init
    */
   login(data, mock) {
-    console.log('auth.login', data);
-    //return middlewareLogin(data);
-    return;
+    return middlewareLogin(data);
     const mockEndpoint = mock === 'error' ? host + 'mock/error.json' : host + 'mock/login.json';
     const realEndpoint = host + '/mock/login.json'; //update with real endpoint once ready
     const endpoint = process.env.NODE_ENV === 'development' && mock ? mockEndpoint : realEndpoint;

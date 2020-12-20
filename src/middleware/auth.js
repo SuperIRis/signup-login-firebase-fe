@@ -1,4 +1,4 @@
-import { firebaseSignup, firebaseRemoveUser, firebaseLoginWithSM } from './firebase/firebaseAuth';
+import { firebaseSignup, firebaseRemoveUser, firebaseLoginWithSM, firebaseLogin } from './firebase/firebaseAuth';
 import { FIREBASE } from './firebase/firebaseConstants';
 import { getProvider } from './provider';
 import addUser from '../models/graphql/mutations/addUser';
@@ -8,6 +8,55 @@ import errorDictionary from '../models/errorDictionary';
 import getUser from '../models/graphql/queries/getUser';
 import firebase from 'firebase/app';
 import { setJWTToken } from '../models/graphql/apolloClient';
+
+function loginWithUserAndPassword(data) {
+  return firebaseLogin(data).then((res) => {
+    return firebase
+      .auth()
+      .currentUser.getIdToken(true)
+      .then(function(idToken) {
+        //setting the JWT token into our Apollo Client middleware so it is included as header
+        setJWTToken(idToken);
+        return getUser(res.user.uid)
+          .then((resUser) => {
+            //user is already registered in the site, and has authenticated, let's log them in
+            return { status: SUCCESS_STATUS, user: resUser.data.user };
+          })
+          .catch((error) => {
+            if (error.message.includes('USER_UNKNOWN')) {
+              throw new Error(errorDictionary.USER_UNKNOWN);
+            } else {
+              throw new Error(error);
+            }
+          });
+      });
+  });
+}
+
+function loginWithSM(data) {
+  return firebaseLoginWithSM(data).then((res) => {
+    return firebase
+      .auth()
+      .currentUser.getIdToken(true)
+      .then(function(idToken) {
+        //setting the JWT token into our Apollo Client middleware so it is included as header
+        setJWTToken(idToken);
+        return getUser(res.user.uid)
+          .then((resUser) => {
+            //user is already registered in the site, and has authenticated with FB, let's log them in
+            return { status: SUCCESS_STATUS, user: resUser.data.user };
+          })
+          .catch((error) => {
+            if (error.message.includes('USER_UNKNOWN')) {
+              throw new Error(errorDictionary.USER_UNKNOWN);
+            } else {
+              throw new Error(error);
+            }
+          });
+      });
+  });
+}
+
 function signupWithUserAndPassword(data) {
   return firebaseSignup(data).then((res) => {
     return firebase
@@ -19,6 +68,18 @@ function signupWithUserAndPassword(data) {
         return storeUserInDB(data);
       });
   });
+}
+
+function signupWithFacebook(data) {
+  //as the user was "verified" before, we already signed in with facebook. We need the idToken only.
+  return firebase
+    .auth()
+    .currentUser.getIdToken(true)
+    .then(function(idToken) {
+      //setting the JWT token into our Apollo Client middleware so it is included as header
+      setJWTToken(idToken);
+      return storeUserInDB(data);
+    });
 }
 
 function storeUserInDB(data) {
@@ -45,17 +106,24 @@ function storeUserInDB(data) {
     });
 }
 
-function signupWithFacebook(data) {
-  //as the user was "verified" before, we already have an id in the data object
-  return storeUserInDB(data);
-}
-
 export function signup(data) {
   if (getProvider() === FIREBASE) {
     if (data.signupMethod === CUSTOM_AUTH) {
       return signupWithUserAndPassword(data);
     } else if (data.signupMethod === SOCIAL_AUTH_FACEBOOK) {
       return signupWithFacebook(data);
+    }
+  }
+}
+
+export function login(data) {
+  if (getProvider() === FIREBASE) {
+    if (data.loginMethod === CUSTOM_AUTH) {
+      return loginWithUserAndPassword(data);
+    } else if (data.loginMethod === SOCIAL_AUTH_FACEBOOK) {
+      return loginWithSM(data);
+    } else {
+      console.error('Login method not supported');
     }
   }
 }

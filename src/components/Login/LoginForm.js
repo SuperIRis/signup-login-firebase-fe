@@ -2,25 +2,29 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import FullField from '../FormElements/FullField';
 import Button from '../ui/Button';
+import styles from './LoginForm.module.css';
 import * as Yup from 'yup';
 
 const loginSchema = Yup.object().shape({
-  username: Yup.string().required('Required'),
+  email: Yup.string()
+    .email('Invalid email')
+    .required('Required'),
   password: Yup.string().required('Required'),
 });
 
 const LoginForm = (props) => {
   const defaults = props.defaultData || {};
   const defaultData = {
-    username: defaults.username || '',
+    email: defaults.email || '',
     password: defaults.password || '',
     remember: false,
   };
+  const { onSubmit, serverError } = props;
   return (
-    <Formik initialValues={defaultData} validationSchema={loginSchema} onSubmit={props.onSubmit}>
+    <Formik initialValues={defaultData} validationSchema={loginSchema} onSubmit={onSubmit}>
       {({ errors, touched, values }) => (
         <Form>
-          <FullField name='username' label='Username' error={touched.username ? errors.username : null} />
+          <FullField name='email' label='Email' error={touched.email ? errors.email : null} />
           <FullField
             name='password'
             label='Password'
@@ -29,7 +33,7 @@ const LoginForm = (props) => {
           />
           <FullField label='Remember me' type='checkbox' name='remember' checked={values.remember} />
           <Button type='submit'>Submit</Button>
-          {props.serverError ? <div>{props.serverError}</div> : null}
+          {props.serverError ? <div className={styles.serverError}>{props.serverError}</div> : null}
         </Form>
       )}
     </Formik>

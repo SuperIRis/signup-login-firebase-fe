@@ -42,6 +42,7 @@ export const Signup = ({ dispatch, data }) => {
     //so we verify if they are eligible for signup
     //if they are not, means they were already there and we can just redirect them to home (by setting the auth, route handles it)
     dispatch(verifyUserForSignupRequest(facebookData, mockRequestError)); //second parameter can be mock, we want this to fail to be able to test the fb signup without removing the app from our FB account each test
+    setSignupMethod(SOCIAL_AUTH_FACEBOOK);
     prefillFields(facebookData.user);
   };
 
@@ -53,7 +54,6 @@ export const Signup = ({ dispatch, data }) => {
       signupMethod: SOCIAL_AUTH_FACEBOOK,
       socialId: user.id,
     });
-    setSignupMethod(SOCIAL_AUTH_FACEBOOK);
   };
 
   if (!data.loggedState) {
