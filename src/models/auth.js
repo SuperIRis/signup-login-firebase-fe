@@ -4,6 +4,7 @@ import errors from './errorDictionary';
 import {
   signup as middlewareSignup,
   login as middlewareLogin,
+  logout as middlewareLogout,
   verifyUserForSignup as middlewareVerifyUserForSignup,
   removeUser as middlewareRemoveUser,
 } from '../middleware/auth';
@@ -54,6 +55,14 @@ const auth = {
       }
     });
   },
+
+  /**
+   * Logout user
+   */
+  logout() {
+    return middlewareLogout();
+  },
+
   /**
    * Verifying user for Signup
    * When using social media auth, verifying if user already exists so we can log them in instead of registering a new user

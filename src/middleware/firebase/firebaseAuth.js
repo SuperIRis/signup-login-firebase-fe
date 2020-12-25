@@ -34,6 +34,15 @@ export function firebaseLogin({ email, password }) {
     });
 }
 
+export function firebaseLogout() {
+  return firebase
+    .auth()
+    .signOut()
+    .then((res) => {
+      return { status: 'success' };
+    });
+}
+
 function firebaseLoginFacebook(facebook) {
   const { response } = facebook;
   const credential = firebase.auth.FacebookAuthProvider.credential(response.authResponse.accessToken);

@@ -19,7 +19,7 @@ export const Login = ({ dispatch, data }) => {
     password: testData ? 'Admin123' : '',
   };
   const serverError = data.error && data.error.message && !mockRequestError ? data.error.message : null;
-
+  const { sending } = data;
   const submitForm = (values) => {
     //dispatch(signupRequest({ ...data.user, ...values, signupMethod }, mockRequestSuccess));
     dispatch(loginRequest({ ...values, loginMethod: CUSTOM_AUTH }, mockRequestSuccess));
@@ -35,9 +35,10 @@ export const Login = ({ dispatch, data }) => {
     return (
       <section>
         <h1>Login</h1>
-        <LoginForm onSubmit={submitForm} defaultData={prefilledData} serverError={serverError} />
+        <LoginForm onSubmit={submitForm} defaultData={prefilledData} serverError={serverError} loading={sending} />
         <p> or </p>
         <FacebookAuth onAuthorized={onFacebookAuthorized}>Login with Facebook</FacebookAuth>
+        <p>Loading:{data.sending}</p>
       </section>
     );
   }

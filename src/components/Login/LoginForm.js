@@ -19,7 +19,7 @@ const LoginForm = (props) => {
     password: defaults.password || '',
     remember: false,
   };
-  const { onSubmit, serverError } = props;
+  const { onSubmit, serverError, loading } = props;
   return (
     <Formik initialValues={defaultData} validationSchema={loginSchema} onSubmit={onSubmit}>
       {({ errors, touched, values }) => (
@@ -32,7 +32,9 @@ const LoginForm = (props) => {
             error={touched.password ? errors.password : null}
           />
           <FullField label='Remember me' type='checkbox' name='remember' checked={values.remember} />
-          <Button type='submit'>Submit</Button>
+          <Button type='submit' loading={loading}>
+            Submit
+          </Button>
           {props.serverError ? <div className={styles.serverError}>{props.serverError}</div> : null}
         </Form>
       )}

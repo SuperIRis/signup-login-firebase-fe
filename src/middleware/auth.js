@@ -1,7 +1,14 @@
-import { firebaseSignup, firebaseRemoveUser, firebaseLoginWithSM, firebaseLogin } from './firebase/firebaseAuth';
+import {
+  firebaseSignup,
+  firebaseRemoveUser,
+  firebaseLoginWithSM,
+  firebaseLogin,
+  firebaseLogout,
+} from './firebase/firebaseAuth';
 import { FIREBASE } from './firebase/firebaseConstants';
 import { getProvider } from './provider';
 import addUser from '../models/graphql/mutations/addUser';
+import logoutUser from '../models/graphql/mutations/logoutUser';
 import removeUserMutation from '../models/graphql/mutations/removeUser';
 import { SUCCESS_STATUS, SOCIAL_AUTH_FACEBOOK, CUSTOM_AUTH } from '../models/constants';
 import errorDictionary from '../models/errorDictionary';
@@ -125,6 +132,19 @@ export function login(data) {
     } else {
       console.error('Login method not supported');
     }
+  }
+}
+
+export function logout() {
+  if (getProvider() === FIREBASE) {
+    return firebaseLogout().then((res) => {
+      console.log('res from logout middleware', res);
+      return logoutUser().then((res) => {
+        //res.status = SUCCESS_STATUS;
+        console.log(res, 'res from logout');
+        return res;
+      });
+    });
   }
 }
 

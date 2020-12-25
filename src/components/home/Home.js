@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import logo from './react.svg';
+import Logout from '../Logout';
 
 export class Home extends React.Component {
   constructor(props) {
@@ -16,18 +17,8 @@ export class Home extends React.Component {
           <img src={logo} className='Home-logo' alt='logo' />
           <h2>Welcome to MyList test</h2>
         </div>
-        {this.state.loggedState ? (
-          <ul>
-            <li>
-              <Link to='/login'>Login</Link>
-            </li>
-            <li>
-              <Link to='/signup'>Signup</Link>
-            </li>
-          </ul>
-        ) : (
-          <div>You are ready!</div>
-        )}
+        <div>You are ready!</div>
+        <Logout />
       </>
     );
   }

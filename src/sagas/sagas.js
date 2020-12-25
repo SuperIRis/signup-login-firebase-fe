@@ -3,6 +3,7 @@ import {
   SENDING_REQUEST,
   SET_AUTH,
   LOGIN_REQUEST,
+  LOGOUT_REQUEST,
   VERIFY_USER_FOR_SIGNUP_REQUEST,
   SET_ERROR,
 } from '../actions/constants';
@@ -30,9 +31,11 @@ export function* authorize(data, authType, mock) {
     SIGNUP_REQUEST: auth.signup,
     LOGIN_REQUEST: auth.login,
     VERIFY_USER_FOR_SIGNUP_REQUEST: auth.verifyUserForSignup,
+    LOGOUT_REQUEST: auth.logout,
   };
   try {
     if (!requests[authType]) {
+      console.log('authType not valid:', authType, requests, requests[authType]);
       throw new Error('authType not valid:', authType);
     }
     response = yield call(requests[authType], data, mock);
@@ -82,6 +85,19 @@ export function* signupFlow() {
   }
 }
 
+export function* logoutFlow() {
+  while (true) {
+    const request = yield take(LOGOUT_REQUEST);
+    console.log('request', request);
+    console.log('request.data', request.data);
+    const result = yield call(authorize, {}, LOGOUT_REQUEST);
+    console.log('resul', result);
+    if (result) {
+      yield put({ type: SET_AUTH, loggedState: false });
+    }
+  }
+}
+
 /**
  * Verify if user is registered flow
  */
@@ -104,6 +120,7 @@ export function* verifyUserForSignupFlow() {
 export default function* root() {
   yield fork(signupFlow);
   yield fork(loginFlow);
+  yield fork(logoutFlow);
   yield fork(verifyUserForSignupFlow);
   //yield fork(sessionFlow);
 }

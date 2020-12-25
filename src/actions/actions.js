@@ -6,6 +6,7 @@ import {
   VERIFY_USER_FOR_SIGNUP_REQUEST,
   SET_ERROR,
   CLEAR_ERROR,
+  LOGOUT_REQUEST,
 } from './constants';
 
 /**
@@ -22,6 +23,13 @@ export function sendingRequest(sending) {
  */
 export function setAuthState(loggedState) {
   return { type: SET_AUTH, loggedState };
+}
+
+/**
+ * We want to logout a user
+ */
+export function logoutRequest() {
+  return { type: LOGOUT_REQUEST };
 }
 
 /**
