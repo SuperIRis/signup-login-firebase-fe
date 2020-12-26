@@ -38,7 +38,6 @@ export const Login = ({ dispatch, data }) => {
         <LoginForm onSubmit={submitForm} defaultData={prefilledData} serverError={serverError} loading={sending} />
         <p> or </p>
         <FacebookAuth onAuthorized={onFacebookAuthorized}>Login with Facebook</FacebookAuth>
-        <p>Loading:{data.sending}</p>
       </section>
     );
   }
