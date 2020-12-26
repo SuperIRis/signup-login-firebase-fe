@@ -1,5 +1,5 @@
 import auth from './auth';
-import { SUCCESS_STATUS } from './constants';
+import { SUCCESS_STATUS } from '@mokuroku/mokuroku-commons/dictionaries/statuses';
 import { setup as middlewareSetup } from '../middleware/setup';
 
 const localStorage = require('localStorage');

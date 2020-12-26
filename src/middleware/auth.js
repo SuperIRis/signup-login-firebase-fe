@@ -10,8 +10,10 @@ import { getProvider } from './provider';
 import addUser from '../models/graphql/mutations/addUser';
 import logoutUser from '../models/graphql/mutations/logoutUser';
 import removeUserMutation from '../models/graphql/mutations/removeUser';
-import { SUCCESS_STATUS, SOCIAL_AUTH_FACEBOOK, CUSTOM_AUTH } from '../models/constants';
-import errorDictionary from '../models/errorDictionary';
+import { SOCIAL_AUTH_FACEBOOK, CUSTOM_AUTH } from '../models/constants';
+import { SUCCESS_STATUS } from '@mokuroku/mokuroku-commons/dictionaries/statuses';
+import { errorsDictionary } from '@mokuroku/mokuroku-commons/dictionaries/errors';
+import { errorsMessagesDictionary } from '@mokuroku/mokuroku-commons/dictionaries/errors';
 import getUser from '../models/graphql/queries/getUser';
 import firebase from 'firebase/app';
 import { setJWTToken } from '../models/graphql/apolloClient';
@@ -31,7 +33,7 @@ function loginWithUserAndPassword(data) {
           })
           .catch((error) => {
             if (error.message.includes('USER_UNKNOWN')) {
-              throw new Error(errorDictionary.USER_UNKNOWN);
+              throw new Error(errorsMessagesDictionary.USER_UNKNOWN);
             } else {
               throw new Error(error);
             }
@@ -55,7 +57,7 @@ function loginWithSM(data) {
           })
           .catch((error) => {
             if (error.message.includes('USER_UNKNOWN')) {
-              throw new Error(errorDictionary.USER_UNKNOWN);
+              throw new Error(errorsMessagesDictionary.USER_UNKNOWN);
             } else {
               throw new Error(error);
             }
@@ -102,13 +104,13 @@ function storeUserInDB(data) {
     .catch(function(error) {
       //If there is an error while saving the user's data, then authentication is invalid as well
       firebaseRemoveUser();
-      //BE error messages will always have 'Error: ErrorType' prefacing the message. In our case, the message is the error code (key to errorDictionary)
+      //BE error messages will always have 'Error: ErrorType' prefacing the message. In our case, the message is the error code (key to errorsMessagesDictionary)
       const errorCode = error.message.substr(error.message.lastIndexOf(' ') + 1);
-      if (errorDictionary[errorCode]) {
-        throw new Error(errorDictionary[errorCode]);
+      if (errorsMessagesDictionary[errorCode]) {
+        throw new Error(errorsMessagesDictionary[errorCode]);
       } else {
         console.error(error);
-        throw new Error(errorDictionary.SERVER_ERROR);
+        throw new Error(errorsMessagesDictionary.SERVER_ERROR);
       }
     });
 }
@@ -138,10 +140,8 @@ export function login(data) {
 export function logout() {
   if (getProvider() === FIREBASE) {
     return firebaseLogout().then((res) => {
-      console.log('res from logout middleware', res);
       return logoutUser().then((res) => {
         //res.status = SUCCESS_STATUS;
-        console.log(res, 'res from logout');
         return res;
       });
     });
@@ -168,7 +168,7 @@ export function verifyUserForSignup(data) {
         return getUser(res.user.uid)
           .then((res) => {
             //user is already registered in the site, and has authenticated with FB, let's log them in
-            return { user: res.data.user, status: errorDictionary.USER_ALREADY_REGISTERED };
+            return { user: res.data.user, status: errorsDictionary.USER_ALREADY_REGISTERED };
           })
           .catch((error) => {
             if (error.message.includes('USER_UNKNOWN')) {

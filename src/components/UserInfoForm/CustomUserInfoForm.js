@@ -5,13 +5,13 @@ import FullField from '../FormElements/FullField';
 import DateField from '../FormElements/DateField';
 import Label from '../FormElements/Label';
 import Select from '../FormElements/Select';
-import errorDictionary from '../../models/errorDictionary';
 import * as Yup from 'yup';
+import { errorsMessagesDictionary } from '@mokuroku/mokuroku-commons/dictionaries/errors';
 
 const userInfoSchema = Yup.object().shape({
   fullName: Yup.string()
     .min(3, 'Too Short!')
-    .max(50, 'Too Long!')
+    .max(30, 'Too Long!')
     .required('Required'),
   username: Yup.string()
     .min(4, 'Too Short!')
@@ -49,8 +49,8 @@ const userInfoSchema = Yup.object().shape({
 const CustomUserInfoForm = (props) => {
   //If the server error is related to a field, we want to add error styles to that field
   const serverErrors = {};
-  serverErrors.EMAIL_ALREADY_IN_USE = props.serverError === errorDictionary.EMAIL_ALREADY_IN_USE || null;
-  serverErrors.USERNAME_ALREADY_IN_USE = props.serverError === errorDictionary.USERNAME_ALREADY_IN_USE || null;
+  serverErrors.EMAIL_ALREADY_IN_USE = props.serverError === errorsMessagesDictionary.EMAIL_ALREADY_IN_USE || null;
+  serverErrors.USERNAME_ALREADY_IN_USE = props.serverError === errorsMessagesDictionary.USERNAME_ALREADY_IN_USE || null;
 
   //creating initialValues object without password and passwordConfirmation
   return (

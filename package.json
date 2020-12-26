@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
+    "@mokuroku/mokuroku-commons": "^1.0.6",
     "apollo-link": "^1.2.14",
     "apollo-link-http": "^1.5.17",
     "cookie-parser": "^1.4.5",
@@ -28,7 +29,7 @@
     "formik": "^2.1.4",
     "graphql": "^15.4.0",
     "localStorage": "^1.0.4",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",

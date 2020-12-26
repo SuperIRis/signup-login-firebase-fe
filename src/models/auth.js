@@ -1,6 +1,6 @@
-import { SUCCESS_STATUS } from './constants';
+import { SUCCESS_STATUS } from '@mokuroku/mokuroku-commons/dictionaries/statuses';
 import request from './request';
-import errors from './errorDictionary';
+import { errorsMessagesDictionary } from '@mokuroku/mokuroku-commons/dictionaries/errors';
 import {
   signup as middlewareSignup,
   login as middlewareLogin,
@@ -49,7 +49,7 @@ const auth = {
       } else {
         return Promise.reject({
           raw: res.error,
-          message: errors[res.error],
+          message: errorsMessagesDictionary[res.error],
           loginAttempts,
         });
       }
@@ -100,7 +100,7 @@ const auth = {
           } else {
             return Promise.reject({
               errorRaw: res && res.error ? res.error : res,
-              error: res && res.error ? errors[res.error] : 'No response',
+              error: res && res.error ? errorsMessagesDictionary[res.error] : 'No response',
             });
           }
         });

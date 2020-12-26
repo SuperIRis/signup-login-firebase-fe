@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { signupRequest, verifyUserForSignupRequest } from '../../actions/actions';
 import UserInfoForm from '../UserInfoForm';
 import FacebookAuth from '../FacebookAuth';
-import errors from '../../models/errorDictionary';
 import { SOCIAL_AUTH_FACEBOOK, CUSTOM_AUTH } from '../../models/constants';
 
 //three dev modes:

@@ -7,10 +7,10 @@ import {
   VERIFY_USER_FOR_SIGNUP_REQUEST,
   SET_ERROR,
 } from '../actions/constants';
-import { SUCCESS_STATUS } from '../models/constants';
+import { SUCCESS_STATUS } from '@mokuroku/mokuroku-commons/dictionaries/statuses';
 import { take, call, put, fork } from 'redux-saga/effects';
 import auth from '../models/auth';
-import errorDictionary from '../models/errorDictionary';
+import { errorsDictionary } from '@mokuroku/mokuroku-commons/dictionaries/errors';
 
 /**
  * Authorizing user
@@ -106,7 +106,7 @@ export function* verifyUserForSignupFlow() {
     const request = yield take(VERIFY_USER_FOR_SIGNUP_REQUEST);
     const data = { ...request.data };
     const result = yield call(authorize, data, VERIFY_USER_FOR_SIGNUP_REQUEST, request.mock);
-    if (result.status === errorDictionary.USER_ALREADY_REGISTERED) {
+    if (result.status === errorsDictionary.USER_ALREADY_REGISTERED) {
       // verification failed: user exists in DB, we should log them in. Result contains user data, for avoiding calling it again
       yield put({ type: VERIFY_USER_FOR_SIGNUP_REQUEST, verified: false, loggedState: true, user: result.user });
     } else if (result.status === SUCCESS_STATUS) {
