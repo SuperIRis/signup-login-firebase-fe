@@ -12,7 +12,7 @@
         "function": "graphql"
       },
       {
-        "source": "[!graphql]**/**",
+        "source": "**/**",
         "function": "app"
       }
     ]
