@@ -81,11 +81,6 @@ const createPage = (req, res, preloadedState) => {
         }
     </head>
     <body>
-    <div>-------------HOST: ${req.hostname}</div>
-    <div>-------------PATH: ${req.path}</div>
-    <div>-------------COOKIES: ${req.cookies}</div>
-    <div>-------------CHOMP: ${req.cookies.chomp}</div>
-
         <div id="root">${markup}</div>
         <script>
           window.__PRELOADED_STATE__ = ${serialize(finalState)};
