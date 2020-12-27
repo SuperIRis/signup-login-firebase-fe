@@ -31,10 +31,6 @@ server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
-    if (!req.session.views) {
-      req.session.views = 0;
-    }
-    req.session.views++;
     //we are looking for the httpOnly cookie set in the BE after login
     //the cookie is named "__session" and contains the firebaseAuth idToken
     auth
@@ -46,7 +42,6 @@ server
           loggedState: !!data.data.currentUser,
           sending: false,
         };
-        console.log('currentUser state', preloadedState);
         createPage(req, res, preloadedState);
       })
       .catch((error) => {
@@ -89,7 +84,6 @@ const createPage = (req, res, preloadedState) => {
         }
     </head>
     <body>
-    ------>${req.session.views}
         <div id="root">${markup}</div>
         <script>
           window.__PRELOADED_STATE__ = ${serialize(finalState)};
