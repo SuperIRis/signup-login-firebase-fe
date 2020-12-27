@@ -81,7 +81,7 @@ const createPage = (req, res, preloadedState) => {
         }
     </head>
     <body>
-    -------------${req.cookies.chomp}
+    -------------${JSON.stringify(req)}
         <div id="root">${markup}</div>
         <script>
           window.__PRELOADED_STATE__ = ${serialize(finalState)};
