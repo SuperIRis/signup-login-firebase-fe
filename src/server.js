@@ -83,7 +83,6 @@ const createPage = (req, res, preloadedState) => {
     <body>
     <div>-------------HOST: ${req.hostname}</div>
     <div>-------------PATH: ${req.path}</div>
-    <div>-------------SUBDOMAINS: ${req.subdomains}</div>
     <div>-------------COOKIES: ${req.cookies}</div>
     <div>-------------CHOMP: ${req.cookies.chomp}</div>
 
