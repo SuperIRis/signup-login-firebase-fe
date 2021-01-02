@@ -7,6 +7,9 @@ import {
   SET_ERROR,
   CLEAR_ERROR,
   LOGOUT_REQUEST,
+  RESET_PASSWORD_REQUEST,
+  SET_RESPONSE,
+  RECOVER_PASSWORD_REQUEST,
 } from './constants';
 
 /**
@@ -23,6 +26,13 @@ export function sendingRequest(sending) {
  */
 export function setAuthState(loggedState) {
   return { type: SET_AUTH, loggedState };
+}
+/**
+ * Sets success state after a successful request
+ * @param {boolean} success   true if user is logged in
+ */
+export function setResponse(success) {
+  return { type: SET_RESPONSE, success };
 }
 
 /**
@@ -55,6 +65,26 @@ export function signupRequest(data, mock) {
 
 export function loginRequest(data, mock) {
   return { type: LOGIN_REQUEST, data, mock };
+}
+
+/**
+ * We want to change the user's password
+ * @param {object} data           data used for login the user
+ * @param {string} data.password  user's password
+ */
+
+export function resetPasswordRequest(data, mock) {
+  return { type: RESET_PASSWORD_REQUEST, data, mock };
+}
+
+/**
+ * We want to request a password change
+ * @param {object} data           data used for login the user
+ * @param {string} data.email     user's email
+ */
+
+export function recoverPasswordRequest(data, mock) {
+  return { type: RECOVER_PASSWORD_REQUEST, data, mock };
 }
 
 /**

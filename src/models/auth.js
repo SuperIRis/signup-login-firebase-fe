@@ -7,6 +7,7 @@ import {
   logout as middlewareLogout,
   verifyUserForSignup as middlewareVerifyUserForSignup,
   removeUser as middlewareRemoveUser,
+  recoverPassword as middlewareRecoverPassword,
 } from '../middleware/auth';
 import getCurrentUser from './graphql/queries/getCurrentUser';
 //import removeUser from './graphql/mutations/removeUser';
@@ -54,6 +55,10 @@ const auth = {
         });
       }
     });
+  },
+
+  recoverPassword(data) {
+    return middlewareRecoverPassword(data);
   },
 
   /**

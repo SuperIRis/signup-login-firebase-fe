@@ -4,6 +4,7 @@ import {
   firebaseLoginWithSM,
   firebaseLogin,
   firebaseLogout,
+  firebaseRecoverPassword,
 } from './firebase/firebaseAuth';
 import { FIREBASE } from './firebase/firebaseConstants';
 import { getProvider } from './provider';
@@ -192,5 +193,22 @@ export function removeUser() {
     return removeUserMutation({ id: firebase.auth().currentUser.uid }).then(() => {
       return firebaseRemoveUser();
     });
+  }
+}
+
+export function recoverPassword(data) {
+  if (getProvider() === FIREBASE) {
+    return firebaseRecoverPassword(data)
+      .then((data) => {
+        console.log('success on recovering!', data);
+        return { status: SUCCESS_STATUS };
+      })
+      .catch((err) => {
+        if (err.code === 'auth/user-not-found') {
+          throw new Error(errorsMessagesDictionary.USER_UNKNOWN);
+        } else {
+          return err;
+        }
+      });
   }
 }

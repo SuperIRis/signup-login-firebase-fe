@@ -72,3 +72,7 @@ export function firebaseRemoveUser() {
       console.log('FIREBASE AUTH: error while removing user', error);
     });
 }
+
+export function firebaseRecoverPassword(data) {
+  return firebase.auth().sendPasswordResetEmail(data.email);
+}
