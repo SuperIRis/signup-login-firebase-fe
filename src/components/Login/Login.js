@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import { loginRequest } from '../../actions/actions';
 import LoginForm from './LoginForm';
@@ -36,6 +36,9 @@ export const Login = ({ dispatch, data }) => {
       <section>
         <h1>Login</h1>
         <LoginForm onSubmit={submitForm} defaultData={prefilledData} serverError={serverError} loading={sending} />
+        <div>
+          <Link to='/forgot-password'>Did you forget your password?</Link>
+        </div>
         <p> or </p>
         <FacebookAuth onAuthorized={onFacebookAuthorized}>Login with Facebook</FacebookAuth>
       </section>

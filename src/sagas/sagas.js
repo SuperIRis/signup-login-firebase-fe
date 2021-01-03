@@ -9,12 +9,13 @@ import {
   RESET_PASSWORD_REQUEST,
   SET_RESPONSE,
   RECOVER_PASSWORD_REQUEST,
+  VERIFY_RESET_PASSWORD_REQUEST,
 } from '../actions/constants';
 import { SUCCESS_STATUS } from '@mokuroku/mokuroku-commons/dictionaries/statuses';
 import { take, call, put, fork } from 'redux-saga/effects';
 import auth from '../models/auth';
 import account from '../models/account';
-import { errorsDictionary } from '@mokuroku/mokuroku-commons/dictionaries/errors';
+import { errorsDictionary, errorsMessagesDictionary } from '@mokuroku/mokuroku-commons/dictionaries/errors';
 
 /**
  * Authorizing user
@@ -37,10 +38,12 @@ export function* authorize(data, authType, mock) {
     VERIFY_USER_FOR_SIGNUP_REQUEST: auth.verifyUserForSignup,
     LOGOUT_REQUEST: auth.logout,
     RECOVER_PASSWORD_REQUEST: auth.recoverPassword,
+    VERIFY_RESET_PASSWORD_REQUEST: auth.verifyResetPasswordRequest,
   };
   try {
     if (!requests[authType]) {
       console.log('authType not valid:', authType, requests, requests[authType]);
+      console.log(data);
       throw new Error('authType not valid:', authType);
     }
     response = yield call(requests[authType], data, mock);
@@ -93,10 +96,7 @@ export function* signupFlow() {
 export function* logoutFlow() {
   while (true) {
     const request = yield take(LOGOUT_REQUEST);
-    console.log('request', request);
-    console.log('request.data', request.data);
     const result = yield call(authorize, {}, LOGOUT_REQUEST);
-    console.log('resul', result);
     if (result) {
       yield put({ type: SET_AUTH, loggedState: false });
     }
@@ -131,11 +131,31 @@ export function* recoverPasswordFlow() {
     try {
       const result = yield call(authorize, data, RECOVER_PASSWORD_REQUEST, request.mock);
       const response = yield put({ type: SET_RESPONSE, response: result });
-      console.log('recover password:::::::::::::', response);
       return response;
     } catch (error) {
-      console.log('error on recover');
       yield put({ type: SET_ERROR, error: error || 'Error on recoverPassword' });
+    }
+  }
+}
+
+/**
+ * Recover user password
+ */
+export function* verifyResetPasswordRequestFlow() {
+  while (true) {
+    //yield put({ type: SENDING_REQUEST, sending: true });
+    const request = yield take(VERIFY_RESET_PASSWORD_REQUEST);
+    const data = request.data;
+    const result = yield call(authorize, data, VERIFY_RESET_PASSWORD_REQUEST, request.mock);
+    if (result && result.status === SUCCESS_STATUS) {
+      // verification successful: link is real and still valid
+      yield put({ type: VERIFY_RESET_PASSWORD_REQUEST, verified: true });
+    } else {
+      /*yield put({ type: VERIFY_RESET_PASSWORD_REQUEST, verified: false });
+      yield put({
+        type: SET_ERROR,
+        error: errorsMessagesDictionary.FAILED_AUTH,
+      });*/
     }
   }
 }
@@ -150,11 +170,9 @@ export function* resetPasswordFlow() {
     yield put({ type: SENDING_REQUEST, sending: true });
     try {
       const result = yield call(account.resetPassword, data, request.mock);
-      console.log('.........', result);
       if (result.status === SUCCESS_STATUS) {
         // verification successful: user doesn't exist in DB. We already logged them in in Firebase auth, need to store data.
         const response = yield put({ type: SET_RESPONSE, response: result });
-        console.log('return response', response);
         return response;
       } else {
         yield put({ type: SET_ERROR, error: result.message || 'Error on resetPassword' });
@@ -173,7 +191,8 @@ export default function* root() {
   yield fork(loginFlow);
   yield fork(logoutFlow);
   yield fork(verifyUserForSignupFlow);
-  //yield fork(resetPasswordFlow);
+  yield fork(resetPasswordFlow);
   yield fork(recoverPasswordFlow);
+  yield fork(verifyResetPasswordRequestFlow);
   //yield fork(sessionFlow);
 }

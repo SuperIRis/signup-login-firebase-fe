@@ -1,8 +1,9 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 import FullField from '../FormElements/FullField';
 import Button from '../ui/Button';
-import * as Yup from 'yup';
+import styles from '../../theme/common.module.css';
 
 const resetPasswordSchema = Yup.object().shape({
   password: Yup.string()
@@ -21,33 +22,36 @@ const resetPasswordSchema = Yup.object().shape({
 
 const ResetPasswordForm = (props) => {
   const defaultData = {
-    password: 'Admin321',
-    passwordConfirmation: 'Admin321',
+    password: 'Admin543',
+    passwordConfirmation: 'Admin543',
   };
   const { onSubmit, serverError, loading } = props;
   return (
-    <Formik initialValues={defaultData} validationSchema={resetPasswordSchema} onSubmit={onSubmit}>
-      {({ errors, touched, values }) => (
-        <Form>
-          <FullField
-            label='Password*'
-            name='password'
-            type='password'
-            error={touched.password ? errors.password : null}
-          />
-          <FullField
-            label='Repeat Password*'
-            name='passwordConfirmation'
-            type='password'
-            error={touched.passwordConfirmation ? errors.passwordConfirmation : null}
-          />
-          <Button type='submit' loading={loading}>
-            Submit
-          </Button>
-          {props.serverError ? <div className={styles.serverError}>{props.serverError}</div> : null}
-        </Form>
-      )}
-    </Formik>
+    <section>
+      <h1>Pick a new password</h1>
+      <Formik initialValues={defaultData} validationSchema={resetPasswordSchema} onSubmit={onSubmit}>
+        {({ errors, touched, values }) => (
+          <Form>
+            <FullField
+              label='Password*'
+              name='password'
+              type='password'
+              error={touched.password ? errors.password : null}
+            />
+            <FullField
+              label='Repeat Password*'
+              name='passwordConfirmation'
+              type='password'
+              error={touched.passwordConfirmation ? errors.passwordConfirmation : null}
+            />
+            <Button type='submit' loading={loading}>
+              Submit
+            </Button>
+            {props.serverError ? <div className={styles.serverError}>{props.serverError}</div> : null}
+          </Form>
+        )}
+      </Formik>
+    </section>
   );
 };
 

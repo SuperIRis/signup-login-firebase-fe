@@ -4,6 +4,7 @@ import {
   SET_ERROR,
   CLEAR_ERROR,
   VERIFY_USER_FOR_SIGNUP_REQUEST,
+  VERIFY_RESET_PASSWORD_REQUEST,
   SET_RESPONSE,
 } from '../actions/constants';
 
@@ -24,6 +25,8 @@ function reducer(state = initialState, action) {
       return { ...state, error: {} };
     case VERIFY_USER_FOR_SIGNUP_REQUEST:
       return { ...state, verifiedForSignup: action.verified, loggedState: action.loggedState, user: action.user };
+    case VERIFY_RESET_PASSWORD_REQUEST:
+      return { ...state, verifiedForResetPassword: action.verified };
     case SET_RESPONSE:
       return { ...state, response: action.response };
     default:

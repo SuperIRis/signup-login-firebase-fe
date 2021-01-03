@@ -10,6 +10,7 @@ import {
   RESET_PASSWORD_REQUEST,
   SET_RESPONSE,
   RECOVER_PASSWORD_REQUEST,
+  VERIFY_RESET_PASSWORD_REQUEST,
 } from './constants';
 
 /**
@@ -96,6 +97,14 @@ export function recoverPasswordRequest(data, mock) {
 
 export function verifyUserForSignupRequest(data, mock) {
   return { type: VERIFY_USER_FOR_SIGNUP_REQUEST, data, mock };
+}
+/**
+ * We want to verify if a user's password change request is valid
+ * @param {object} data
+ * @param {string} data.token      user's action
+ */
+export function verifyResetPasswordRequest(data, mock) {
+  return { type: VERIFY_RESET_PASSWORD_REQUEST, data, mock };
 }
 
 /**

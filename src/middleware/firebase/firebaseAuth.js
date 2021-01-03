@@ -76,3 +76,7 @@ export function firebaseRemoveUser() {
 export function firebaseRecoverPassword(data) {
   return firebase.auth().sendPasswordResetEmail(data.email);
 }
+
+export function firebaseVerifyResetPasswordRequest(oobCode) {
+  return firebase.auth().verifyPasswordResetCode(oobCode);
+}

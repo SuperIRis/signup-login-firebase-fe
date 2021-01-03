@@ -5,6 +5,7 @@ import {
   firebaseLogin,
   firebaseLogout,
   firebaseRecoverPassword,
+  firebaseVerifyResetPasswordRequest,
 } from './firebase/firebaseAuth';
 import { FIREBASE } from './firebase/firebaseConstants';
 import { getProvider } from './provider';
@@ -110,7 +111,6 @@ function storeUserInDB(data) {
       if (errorsMessagesDictionary[errorCode]) {
         throw new Error(errorsMessagesDictionary[errorCode]);
       } else {
-        console.error(error);
         throw new Error(errorsMessagesDictionary.SERVER_ERROR);
       }
     });
@@ -198,16 +198,23 @@ export function removeUser() {
 
 export function recoverPassword(data) {
   if (getProvider() === FIREBASE) {
-    return firebaseRecoverPassword(data)
-      .then((data) => {
-        console.log('success on recovering!', data);
+    return firebaseRecoverPassword(data).then((data) => {
+      return { status: SUCCESS_STATUS };
+    });
+  }
+}
+
+export function verifyResetPasswordRequest(data) {
+  if (getProvider() === FIREBASE) {
+    return firebaseVerifyResetPasswordRequest(data.token)
+      .then(() => {
         return { status: SUCCESS_STATUS };
       })
       .catch((err) => {
-        if (err.code === 'auth/user-not-found') {
-          throw new Error(errorsMessagesDictionary.USER_UNKNOWN);
+        if (err.code === 'auth/expired-action-code') {
+          throw new Error(errorsMessagesDictionary.EXPIRED_PASSWORD_TOKEN);
         } else {
-          return err;
+          throw err;
         }
       });
   }

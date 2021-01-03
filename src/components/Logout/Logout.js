@@ -5,9 +5,7 @@ import { logoutRequest } from '../../actions/actions';
 
 const Logout = ({ dispatch, data }) => {
   const [loggedUser, setLoggedUser] = useState(true);
-  console.log(data);
   function onLogoutClick() {
-    console.log('logout---');
     dispatch(logoutRequest());
   }
 

@@ -10,7 +10,6 @@ export const RecoverPassword = ({ dispatch, data }) => {
   };
   const submitted = data.response && data.response.status === SUCCESS_STATUS;
   const serverError = data.error && data.error.message;
-  console.log('Recover password', data);
   return (
     <section>
       <h1>Help with your password</h1>

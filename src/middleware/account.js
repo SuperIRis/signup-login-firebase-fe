@@ -1,4 +1,8 @@
+import { firebaseResetPassword } from './firebase/firebaseAccount';
+
 export function resetPassword(data) {
-  console.log('reset to', data.password);
-  return Promise.resolve({ status: 'success' });
+  return firebaseResetPassword(data.token, data.password).then(() => {
+    return { status: 'success' };
+  });
+  //return Promise.resolve({ status: 'success' });
 }

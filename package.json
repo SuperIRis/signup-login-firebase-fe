@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
-    "@mokuroku/mokuroku-commons": "^1.0.6",
+    "@mokuroku/mokuroku-commons": "^1.0.7",
     "apollo-link": "^1.2.14",
     "apollo-link-http": "^1.5.17",
     "cookie-parser": "^1.4.5",

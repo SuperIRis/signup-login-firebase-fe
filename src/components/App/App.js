@@ -21,7 +21,7 @@ const App = () => (
     <GuestRoute exact path='/' component={HomeGuest} />
     <PrivateRoute exact path='/dashboard' component={Home} redirectTo={'/'} />
     <GuestRoute exact path='/login' component={Login} />
-    <PrivateRoute exact path='/account/reset-password' component={ResetPassword} />
+    <Route exact path='/account/reset-password' component={ResetPassword} />
     <GuestRoute exact path='/forgot-password' component={RecoverPassword} />
     <GuestRoute exact path='/signup' component={Signup} />
     <Route exact path='/faq' component={HomeGuest} />
