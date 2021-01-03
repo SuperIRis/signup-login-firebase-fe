@@ -6,6 +6,7 @@ import { loginRequest } from '../../actions/actions';
 import LoginForm from './LoginForm';
 import FacebookAuth from '../FacebookAuth';
 import { SOCIAL_AUTH_FACEBOOK, CUSTOM_AUTH } from '../../models/constants';
+import { LOGIN_REQUEST } from '../../actions/constants';
 
 //to prefill form
 const testData = process.env.NODE_ENV === 'development' && true; // change to false when testing without data
@@ -18,7 +19,10 @@ export const Login = ({ dispatch, data }) => {
     email: testData ? 'iris@iris.com' : '',
     password: testData ? 'Admin123' : '',
   };
-  const serverError = data.error && data.error.message && !mockRequestError ? data.error.message : null;
+  const serverError =
+    data.error && data.error.type === LOGIN_REQUEST && data.error.message && !mockRequestError
+      ? data.error.message
+      : null;
   const { sending } = data;
   const submitForm = (values) => {
     //dispatch(signupRequest({ ...data.user, ...values, signupMethod }, mockRequestSuccess));

@@ -211,7 +211,7 @@ export function verifyResetPasswordRequest(data) {
         return { status: SUCCESS_STATUS };
       })
       .catch((err) => {
-        if (err.code === 'auth/expired-action-code') {
+        if (err.code === 'auth/invalid-action-code') {
           throw new Error(errorsMessagesDictionary.EXPIRED_PASSWORD_TOKEN);
         } else {
           throw err;

@@ -49,7 +49,7 @@ export function* authorize(data, authType, mock) {
     response = yield call(requests[authType], data, mock);
     return response;
   } catch (error) {
-    yield put({ type: SET_ERROR, error });
+    yield put({ type: SET_ERROR, error: { type: authType, message: (error && error.message) || error } });
   } finally {
     yield put({ type: SENDING_REQUEST, sending: false });
   }
@@ -175,10 +175,10 @@ export function* resetPasswordFlow() {
         const response = yield put({ type: SET_RESPONSE, response: result });
         return response;
       } else {
-        yield put({ type: SET_ERROR, error: result.message || 'Error on resetPassword' });
+        yield put({ type: SET_ERROR, error: { type: RESET_PASSWORD_REQUEST, message: result.message } });
       }
     } catch (error) {
-      yield put({ type: SET_ERROR, error });
+      yield put({ type: SET_ERROR, error: { type: RESET_PASSWORD_REQUEST, message: error.message || error } });
     } finally {
       yield put({ type: SENDING_REQUEST, sending: false });
     }

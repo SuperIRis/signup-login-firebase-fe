@@ -3,13 +3,18 @@ import { connect } from 'react-redux';
 import { SUCCESS_STATUS } from '@mokuroku/mokuroku-commons/dictionaries/statuses';
 import { recoverPasswordRequest } from '../../actions/actions';
 import RecoverPasswordForm from './RecoverPasswordForm';
+import { RECOVER_PASSWORD_REQUEST } from '../../actions/constants';
 
 export const RecoverPassword = ({ dispatch, data }) => {
   const submitForm = (values) => {
     dispatch(recoverPasswordRequest({ email: values.email }));
   };
   const submitted = data.response && data.response.status === SUCCESS_STATUS;
-  const serverError = data.error && data.error.message;
+  const serverError =
+    data.error && data.error.type === RECOVER_PASSWORD_REQUEST && data.error.message && !mockRequestError
+      ? data.error.message
+      : null;
+
   return (
     <section>
       <h1>Help with your password</h1>

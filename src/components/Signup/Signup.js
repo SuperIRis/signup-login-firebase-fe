@@ -5,6 +5,7 @@ import { signupRequest, verifyUserForSignupRequest } from '../../actions/actions
 import UserInfoForm from '../UserInfoForm';
 import FacebookAuth from '../FacebookAuth';
 import { SOCIAL_AUTH_FACEBOOK, CUSTOM_AUTH } from '../../models/constants';
+import { SIGNUP_REQUEST } from '../../actions/constants';
 
 //three dev modes:
 //to prefill form
@@ -27,7 +28,10 @@ export const Signup = ({ dispatch, data }) => {
     birthDateYYYY: testData ? '1982' : '',
     terms: testData ? true : false,
   };
-  const serverError = data.error && data.error.message && !mockRequestError ? data.error.message : null;
+  const serverError =
+    data.error && data.error.type === SIGNUP_REQUEST && data.error.message && !mockRequestError
+      ? data.error.message
+      : null;
 
   const [formValues, setFormValues] = useState(prefilledData);
   const [signupMethod, setSignupMethod] = useState(CUSTOM_AUTH); //custom or FB

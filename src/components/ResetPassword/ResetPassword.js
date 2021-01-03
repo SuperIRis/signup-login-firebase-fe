@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ResetPasswordForm from './ResetPasswordForm';
 import { resetPasswordRequest, verifyResetPasswordRequest } from '../../actions/actions';
 import { SUCCESS_STATUS } from '@mokuroku/mokuroku-commons/dictionaries/statuses';
+import { VERIFY_RESET_PASSWORD_REQUEST } from '../../actions/constants';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -44,7 +45,7 @@ export const ResetPassword = ({ dispatch, data }) => {
   } else if (data.loggedState) {
     //user is logged in, they want to change their password
     return <ResetPasswordForm onSubmit={submitForm} />;
-  } else if (data.error) {
+  } else if (data.error && data.error.type === VERIFY_RESET_PASSWORD_REQUEST) {
     //The verification for the request failed from provider
     return resetPasswordError;
   } else if (data.verifiedForResetPassword) {
