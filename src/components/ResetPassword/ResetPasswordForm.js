@@ -21,9 +21,10 @@ const resetPasswordSchema = Yup.object().shape({
 });
 
 const ResetPasswordForm = (props) => {
+  const testData = process.env.NODE_ENV === 'development' && true; // change to false when testing without data
   const defaultData = {
-    password: 'Admin543',
-    passwordConfirmation: 'Admin543',
+    password: testData ? 'Admin543' : '',
+    passwordConfirmation: testData ? 'Admin543' : '',
   };
   const { onSubmit, serverError, loading } = props;
   return (

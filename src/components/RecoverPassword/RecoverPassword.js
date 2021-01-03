@@ -9,7 +9,8 @@ export const RecoverPassword = ({ dispatch, data }) => {
   const submitForm = (values) => {
     dispatch(recoverPasswordRequest({ email: values.email }));
   };
-  const submitted = data.response && data.response.status === SUCCESS_STATUS;
+  const submitted =
+    data.response && data.response.type === RECOVER_PASSWORD_REQUEST && data.response.status === SUCCESS_STATUS;
   const serverError =
     data.error && data.error.type === RECOVER_PASSWORD_REQUEST && data.error.message && !mockRequestError
       ? data.error.message
