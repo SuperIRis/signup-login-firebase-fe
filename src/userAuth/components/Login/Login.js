@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 
-import { loginRequest } from '../../actions/actions';
+import { loginRequest } from '../../actions/userAuthActions';
 import LoginForm from './LoginForm';
 import FacebookAuth from '../FacebookAuth';
-import { SOCIAL_AUTH_FACEBOOK, CUSTOM_AUTH } from '../../models/constants';
-import { LOGIN_REQUEST } from '../../actions/constants';
+import { SOCIAL_AUTH_FACEBOOK, CUSTOM_AUTH } from '../../../models/constants';
+import { LOGIN_REQUEST } from '../../actions/userAuthConstants';
 
 //to prefill form
 const testData = process.env.NODE_ENV === 'development' && true; // change to false when testing without data

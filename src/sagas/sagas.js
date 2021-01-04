@@ -7,7 +7,7 @@ import {
   verifyUserForSignupFlow,
   recoverPasswordFlow,
   verifyResetPasswordRequestFlow,
-} from './auth';
+} from '../userAuth/sagas/auth';
 
 // Fork all sagas here, so they are listening since the start
 export default function* root() {

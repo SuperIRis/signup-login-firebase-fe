@@ -1,12 +1,10 @@
+import { SENDING_REQUEST, SET_ERROR, CLEAR_ERROR, SET_RESPONSE } from '../actions/constants';
+
 import {
-  SENDING_REQUEST,
   SET_AUTH,
-  SET_ERROR,
-  CLEAR_ERROR,
   VERIFY_USER_FOR_SIGNUP_REQUEST,
   VERIFY_RESET_PASSWORD_REQUEST,
-  SET_RESPONSE,
-} from '../actions/constants';
+} from '../userAuth/actions/userAuthConstants';
 
 const initialState = {
   loggedState: false,
@@ -24,7 +22,13 @@ function reducer(state = initialState, action) {
     case CLEAR_ERROR:
       return { ...state, error: {} };
     case VERIFY_USER_FOR_SIGNUP_REQUEST:
-      return { ...state, verifiedForSignup: action.verified, loggedState: action.loggedState, user: action.user };
+      return {
+        ...state,
+        loginMethod: action.loginMethod,
+        verifiedForSignup: action.verified,
+        loggedState: action.loggedState,
+        user: action.user,
+      };
     case VERIFY_RESET_PASSWORD_REQUEST:
       return { ...state, verifiedForResetPassword: action.verified };
     case SET_RESPONSE:

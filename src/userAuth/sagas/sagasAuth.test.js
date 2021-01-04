@@ -1,6 +1,12 @@
-import { SIGNUP_REQUEST, LOGIN_REQUEST, LOGOUT_REQUEST, VERIFY_USER_FOR_SIGNUP_REQUEST } from '../actions/constants';
-import { setAuthState, sendingRequest, setError } from '../actions/actions';
-import sagasRoot from './sagas';
+import {
+  SIGNUP_REQUEST,
+  LOGIN_REQUEST,
+  LOGOUT_REQUEST,
+  VERIFY_USER_FOR_SIGNUP_REQUEST,
+} from '../actions/userAuthConstants';
+import { sendingRequest, setError } from '../../actions/actions';
+import { setAuthState } from '../actions/userAuthActions';
+import sagasRoot from '../../sagas';
 import {
   loginFlow,
   signupFlow,
@@ -10,7 +16,7 @@ import {
   verifyResetPasswordRequestFlow,
   authorize,
 } from './auth';
-import { resetPasswordFlow } from './account';
+import { resetPasswordFlow } from '../../sagas/account';
 import { take, call, put, fork } from 'redux-saga/effects';
 import auth from '../models/auth';
 describe('Sagas', () => {

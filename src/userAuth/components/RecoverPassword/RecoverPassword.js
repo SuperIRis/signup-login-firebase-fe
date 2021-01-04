@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { SUCCESS_STATUS } from '@mokuroku/mokuroku-commons/dictionaries/statuses';
-import { recoverPasswordRequest } from '../../actions/actions';
+import { recoverPasswordRequest } from '../../actions/userAuthActions';
 import RecoverPasswordForm from './RecoverPasswordForm';
-import { RECOVER_PASSWORD_REQUEST } from '../../actions/constants';
+import { RECOVER_PASSWORD_REQUEST } from '../../actions/userAuthConstants';
 
 export const RecoverPassword = ({ dispatch, data }) => {
   const submitForm = (values) => {

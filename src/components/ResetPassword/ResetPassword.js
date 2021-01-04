@@ -2,9 +2,10 @@ import React from 'react';
 import { useLocation, Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ResetPasswordForm from './ResetPasswordForm';
-import { resetPasswordRequest, verifyResetPasswordRequest } from '../../actions/actions';
+import { resetPasswordRequest } from '../../actions/actions';
+import { verifyResetPasswordRequest } from '../../userAuth/actions/userAuthActions';
 import { SUCCESS_STATUS } from '@mokuroku/mokuroku-commons/dictionaries/statuses';
-import { VERIFY_RESET_PASSWORD_REQUEST } from '../../actions/constants';
+import { VERIFY_RESET_PASSWORD_REQUEST } from '../../userAuth/actions/userAuthConstants';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);

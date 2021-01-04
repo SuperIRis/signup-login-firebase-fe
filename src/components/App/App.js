@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styles from './App.module.css';
-import Signup from '../Signup';
-import Login from '../Login';
+import Signup from '../../userAuth/components/Signup';
+import Login from '../../userAuth/components/Login';
 import Home from '../home/Home';
 import PrivateRoute from '../../router/PrivateRoute';
 import GuestRoute from '../../router/GuestRoute';
@@ -11,7 +11,7 @@ import ResetPassword from '../ResetPassword';
 //import { ApolloProvider } from '@apollo/client';
 //import client from '../../models/graphql/apolloClient';
 import { setup as middlewareSetup } from '../../middleware/setup';
-import RecoverPassword from '../RecoverPassword';
+import RecoverPassword from '../../userAuth/components/RecoverPassword';
 
 //this is for setting the infra provider, like Firebase. Not related to React context provider
 middlewareSetup();

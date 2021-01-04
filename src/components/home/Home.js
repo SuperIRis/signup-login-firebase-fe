@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import logo from './react.svg';
-import Logout from '../Logout';
+import Logout from '../../userAuth/components/Logout';
 
 export class Home extends React.Component {
   constructor(props) {

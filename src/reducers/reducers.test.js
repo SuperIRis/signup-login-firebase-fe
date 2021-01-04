@@ -1,4 +1,5 @@
-import { SENDING_REQUEST, SET_AUTH, SET_ERROR, CLEAR_ERROR } from '../actions/constants';
+import { SET_AUTH } from '../userAuth/actions/userAuthConstants';
+import { SENDING_REQUEST, SET_ERROR } from '../actions/constants';
 import reducer from './reducers';
 
 describe('Reducer', () => {

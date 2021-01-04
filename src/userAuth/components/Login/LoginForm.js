@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import FullField from '../FormElements/FullField';
-import Button from '../ui/Button';
+import FullField from '../../../components/FormElements/FullField';
+import Button from '../../../components/ui/Button';
 import styles from './LoginForm.module.css';
 import * as Yup from 'yup';
 

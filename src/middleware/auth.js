@@ -105,7 +105,7 @@ function storeUserInDB(data) {
     })
     .catch(function(error) {
       //If there is an error while saving the user's data, then authentication is invalid as well
-      firebaseRemoveUser();
+      //firebaseRemoveUser(); //commenting this cause when the user retries to submit (after fixing an "existing username" error for example), the firebaseUser has gone and submit fails. Might come in handy later?
       //BE error messages will always have 'Error: ErrorType' prefacing the message. In our case, the message is the error code (key to errorsMessagesDictionary)
       const errorCode = error.message.substr(error.message.lastIndexOf(' ') + 1);
       if (errorsMessagesDictionary[errorCode]) {

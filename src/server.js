@@ -6,7 +6,7 @@ import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import configureStore from './common/configureStore';
 import serialize from 'serialize-javascript';
-import auth from './models/auth';
+import auth from './userAuth/models/auth';
 import { getProviderEnvVars, setup as middlewareSetup } from './middleware/setup';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';

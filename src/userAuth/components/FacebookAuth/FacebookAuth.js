@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Facebook from './Facebook';
-import Button from '../ui/Button';
+import Button from '../../../components/ui/Button';
 
 const FacebookAuth = ({ onAuthorized, children }) => {
   const [enabled, setEnabled] = useState();

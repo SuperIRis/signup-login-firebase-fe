@@ -1,5 +1,5 @@
 import { SUCCESS_STATUS } from '@mokuroku/mokuroku-commons/dictionaries/statuses';
-import request from './request';
+import request from '../../models/request';
 import { errorsMessagesDictionary } from '@mokuroku/mokuroku-commons/dictionaries/errors';
 import {
   signup as middlewareSignup,
@@ -9,8 +9,8 @@ import {
   removeUser as middlewareRemoveUser,
   recoverPassword as middlewareRecoverPassword,
   verifyResetPasswordRequest as middlewareVerifyResetPasswordRequest,
-} from '../middleware/auth';
-import getCurrentUser from './graphql/queries/getCurrentUser';
+} from '../../middleware/auth';
+import getCurrentUser from '../../models/graphql/queries/getCurrentUser';
 //import removeUser from './graphql/mutations/removeUser';
 
 const host = `https://${process.env.HOST}:${Number(process.env.PORT)}/`;

@@ -1,5 +1,5 @@
 //https://developers.facebook.com/docs/facebook-login/web
-import { getFBAppId } from '../../middleware/config';
+import { getFBAppId } from '../../../middleware/config';
 let FB;
 const verbose = false; //change to true to receive logs of FB API responses
 const Facebook = {

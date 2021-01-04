@@ -1,9 +1,9 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import FullField from '../FormElements/FullField';
-import Button from '../ui/Button';
-import styles from '../../theme/common.module.css';
+import FullField from '../../../components/FormElements/FullField';
+import Button from '../../../components/ui/Button';
+import styles from '../../../theme/common.module.css';
 
 const recoverPasswordSchema = Yup.object().shape({
   email: Yup.string()
