@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 
@@ -23,13 +23,16 @@ export const Login = ({ dispatch, data }) => {
     data.error && data.error.type === LOGIN_REQUEST && data.error.message && !mockRequestError
       ? data.error.message
       : null;
-  const { sending } = data;
+  const [loginMethod, setLoginMethod] = useState(CUSTOM_AUTH); //custom or FB
+  const sending = data.sending && loginMethod === CUSTOM_AUTH;
+  const sendingFB = data.sending && loginMethod === SOCIAL_AUTH_FACEBOOK;
   const submitForm = (values) => {
     //dispatch(signupRequest({ ...data.user, ...values, signupMethod }, mockRequestSuccess));
     dispatch(loginRequest({ ...values, loginMethod: CUSTOM_AUTH }, mockRequestSuccess));
   };
 
   const onFacebookAuthorized = (facebookData) => {
+    setLoginMethod(SOCIAL_AUTH_FACEBOOK);
     dispatch(loginRequest({ loginMethod: SOCIAL_AUTH_FACEBOOK, ...facebookData }, mockRequestSuccess));
   };
 
@@ -44,7 +47,9 @@ export const Login = ({ dispatch, data }) => {
           <Link to='/forgot-password'>Did you forget your password?</Link>
         </div>
         <p> or </p>
-        <FacebookAuth onAuthorized={onFacebookAuthorized}>Login with Facebook</FacebookAuth>
+        <FacebookAuth onAuthorized={onFacebookAuthorized} loading={sendingFB}>
+          Login with Facebook
+        </FacebookAuth>
       </section>
     );
   }

@@ -1,4 +1,4 @@
-import auth from './auth';
+import auth from '../userAuth/models/auth';
 import { SUCCESS_STATUS } from '@mokuroku/mokuroku-commons/dictionaries/statuses';
 import { setup as middlewareSetup } from '../middleware/setup';
 

@@ -35,7 +35,7 @@ const LoginForm = (props) => {
           <Button type='submit' loading={loading}>
             Submit
           </Button>
-          {props.serverError ? <div className={styles.serverError}>{props.serverError}</div> : null}
+          {serverError ? <div className={styles.serverError}>{serverError}</div> : null}
         </Form>
       )}
     </Formik>

@@ -36,6 +36,7 @@ export const Signup = ({ dispatch, data }) => {
   const [formValues, setFormValues] = useState(prefilledData);
   const [signupMethod, setSignupMethod] = useState(CUSTOM_AUTH); //custom or FB
 
+  const { sending } = data;
   const submitForm = (values) => {
     dispatch(signupRequest({ ...data.user, ...values }, mockRequestSuccess));
   };
@@ -67,7 +68,13 @@ export const Signup = ({ dispatch, data }) => {
         <h2>Register with Facebook</h2>
         <FacebookAuth onAuthorized={onFacebookAuthorized} />
         <h2>Register with your email</h2>
-        <UserInfoForm onSubmit={submitForm} serverError={serverError} values={formValues} signupMethod={signupMethod} />
+        <UserInfoForm
+          onSubmit={submitForm}
+          serverError={serverError}
+          values={formValues}
+          signupMethod={signupMethod}
+          loading={sending}
+        />
       </section>
     );
   } else {

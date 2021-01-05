@@ -5,6 +5,7 @@ import FullField from '../FormElements/FullField';
 import DateField from '../FormElements/DateField';
 import Label from '../FormElements/Label';
 import Select from '../FormElements/Select';
+import Button from '../ui/Button';
 import * as Yup from 'yup';
 import { errorsMessagesDictionary } from '@mokuroku/mokuroku-commons/dictionaries/errors';
 
@@ -51,7 +52,7 @@ const CustomUserInfoForm = (props) => {
   const serverErrors = {};
   serverErrors.EMAIL_ALREADY_IN_USE = props.serverError === errorsMessagesDictionary.EMAIL_ALREADY_IN_USE || null;
   serverErrors.USERNAME_ALREADY_IN_USE = props.serverError === errorsMessagesDictionary.USERNAME_ALREADY_IN_USE || null;
-
+  const { loading } = props;
   //creating initialValues object without password and passwordConfirmation
   return (
     <Formik enableReinitialize initialValues={props.values} validationSchema={userInfoSchema} onSubmit={props.onSubmit}>
@@ -102,9 +103,9 @@ const CustomUserInfoForm = (props) => {
             error={touched.terms ? errors.terms : null}
           />
           {props.serverError ? <div className={styles.serverError}>{props.serverError}</div> : null}
-          <button type='submit' className={styles.submitBtn}>
+          <Button type='submit' className={styles.submitBtn} loading={loading}>
             Submit
-          </button>
+          </Button>
         </Form>
       )}
     </Formik>

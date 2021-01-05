@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Facebook from './Facebook';
 import Button from '../../../components/ui/Button';
 
-const FacebookAuth = ({ onAuthorized, children }) => {
+const FacebookAuth = ({ onAuthorized, loading, children }) => {
   const [enabled, setEnabled] = useState();
   const buttonLabel = children || 'Facebook Yo!';
   const authorizeFacebook = () => {
@@ -36,7 +36,11 @@ const FacebookAuth = ({ onAuthorized, children }) => {
   }, []);
 
   if (enabled) {
-    return <Button onClick={authorizeFacebook}>{buttonLabel}</Button>;
+    return (
+      <Button onClick={authorizeFacebook} loading={loading}>
+        {buttonLabel}
+      </Button>
+    );
   } else {
     return <Button loading={true}>{buttonLabel}</Button>;
   }
