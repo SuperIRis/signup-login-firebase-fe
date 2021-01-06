@@ -30,7 +30,8 @@ Make it both protected and masked, so it will only be exposed to protected branc
 ###Repo files related to Firebase
 - /.firebaserc
 - /firebase.json
-- /middleware/firebaseConfig
+- /middleware/firebaseConfig.staging
+- /middleware/firebaseConfig.production 
 
 ###Env variables
 In Firebase, to use env variables you need to define them on the CLI.
@@ -40,7 +41,4 @@ In Firebase, to use env variables you need to define them on the CLI.
 4. Deploy the configuration with ```firebase deploy --only functions``` or a general deployment (slower)
 5. To see the variables you can use ```firebase functions:config:get```
 
-The variables you need to set for the project to work (note, this are not secret keys, please avoid storing secret keys in env files or providers env vars):
-* Facebook app id:
-  * Local: RAZZLE_FB_APPID
-  * Provider: facebook.appid
+The variables you need to set for the project to work (note, these are not secret keys, please avoid storing secret keys in env files or providers env vars) are defined in .env.example
